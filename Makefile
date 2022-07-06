@@ -1,7 +1,9 @@
 
 NAME = minishell
 
-SRC = main.c 
+SRC =	main.c \
+		utils.c \
+		
 
 OBJ = $(addprefix $(OBJDIR),$(SRC:.c=.o))
 
