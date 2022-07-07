@@ -13,3 +13,11 @@ void	ft_strcpy(char *dst, const char *src, long len)
 	}
 	dst[i] = '\0';
 }
+
+int	ft_isspace(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\v'
+		|| c == '\f' || c == '\r' || c == '\n')
+		return (1);
+	return (0);
+}
