@@ -2,11 +2,7 @@
 #ifndef SCANNER_H
 # define SCANNER_H
 
-typedef struct s_src {
-	char	*s;
-	long	curpos;
-	long	len;
-}	t_src;
+# include "source.h"
 
 typedef struct s_token {
 	void	*key;
