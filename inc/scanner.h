@@ -2,6 +2,11 @@
 #ifndef SCANNER_H
 # define SCANNER_H
 
+typedef struct s_src {
+	char	*s;
+	long	curpos;
+	long	len;
+}	t_src;
 
 typedef struct s_token {
 	void	*key;
@@ -18,6 +23,7 @@ typedef struct s_token {
 # define REDIR_IN 7 // <
 # define REDIR_APPEND 8 // >>
 # define REDIR_INSOURCE 9 // <<
+
 
 t_token	*create_token(char key, char *val, long l);
 void	free_token(t_token *tok, char m);
