@@ -24,7 +24,7 @@ typedef struct s_token {
 # define REDIR_APPEND 8 // >>
 # define REDIR_INSOURCE 9 // <<
 
-
+t_token	*find_token(t_src *src);
 t_token	*create_token(char key, char *val, long l);
 void	free_token(t_token *tok, char m);
 

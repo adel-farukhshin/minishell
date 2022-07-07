@@ -3,7 +3,8 @@ NAME = minishell
 
 SRC =	main.c \
 		utils.c \
-		scanner.c
+		scanner.c \
+		find_token.c \
 
 OBJ = $(addprefix $(OBJDIR),$(SRC:.c=.o))
 
