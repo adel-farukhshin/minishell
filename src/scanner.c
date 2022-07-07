@@ -45,7 +45,10 @@ static void	data_cpy(t_token *tok, char key, char *val, long l)
 			free_token(tok, 1);
 			return (NULL);
 		}
-		ft_strcpy(tok->val, val, l);
+		if (key == 2)
+			ft_strcpy(tok->val, val, l);
+		else
+			ft_strcpy(tok->val, val + 1, l - 2);
 	}
 }
 
