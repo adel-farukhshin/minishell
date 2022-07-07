@@ -23,12 +23,7 @@ t_token	*create_token(char key, char *val, long l)
 		return (NULL);
 	}
 	tok->val = NULL;
-	tok->next = malloc(sizeof(void *));
-	if (!tok->next)
-	{
-		free_token(tok, 2);
-		return (NULL);
-	}
+	tok->next = NULL;
 	if (data_cpy(tok, key, val, l))
 		return (NULL);
 	return (tok);
@@ -59,7 +54,5 @@ void	free_token(t_token *tok, char m)
 		free(tok->key);
 	if (m > 1 && tok->val)
 		free(tok->val);
-	if (m > 2 && tok->next)
-		free(tok->next);
 	free(tok);
 }
