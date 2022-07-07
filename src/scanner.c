@@ -7,8 +7,7 @@
 
 
 
-
-static void	data_cpy(t_token *tok, char key, char *val, long l);
+static int	data_cpy(t_token *tok, char key, char *val, long l);
 
 t_token	*create_token(char key, char *val, long l)
 {
@@ -30,11 +29,12 @@ t_token	*create_token(char key, char *val, long l)
 		free_token(tok, 2);
 		return (NULL);
 	}
-	data_cpy(tok, key, val, l);
+	if (data_cpy(tok, key, val, l))
+		return (NULL);
 	return (tok);
 }
 
-static void	data_cpy(t_token *tok, char key, char *val, long l)
+static int	data_cpy(t_token *tok, char key, char *val, long l)
 {
 	*(char *)tok->key = key;
 	if (key >= 2 && key <= 4)
@@ -43,13 +43,14 @@ static void	data_cpy(t_token *tok, char key, char *val, long l)
 		if (!tok->val)
 		{
 			free_token(tok, 1);
-			return (NULL);
+			return (-1);
 		}
 		if (key == 2)
 			ft_strcpy(tok->val, val, l);
 		else
 			ft_strcpy(tok->val, val + 1, l - 2);
 	}
+	return (0);
 }
 
 void	free_token(t_token *tok, char m)
