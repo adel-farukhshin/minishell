@@ -5,9 +5,53 @@
 #include "scanner.h"
 #include "minishell.h"
 
-
+#include <stdio.h>
 
 static int	data_cpy(t_token *tok, char key, char *val, long l);
+void		free_token_list(t_token *head);
+
+t_token	*tokenize(t_src *src)
+{
+	t_token	*head;
+	t_token	*tok;
+	t_token	*tmp;
+
+	head = NULL;
+	while (src->curpos < src->len)
+	{
+		tok = find_token(src);
+		if (!tok)
+		{
+			free_token_list(head);
+			return (NULL);
+		}
+		if (!head)
+		{
+			head = tok;
+			tmp = tok;
+		}
+		else
+		{
+			tmp->next = tok;
+			tmp = tok;
+		}
+	}
+	return (head);
+}
+
+void	free_token_list(t_token *head)
+{
+	t_token	*tmp;
+
+	if (!head)
+		return ;
+	while (head)
+	{
+		tmp = head->next;
+		free_token(head, 2);
+		head = tmp;
+	}
+}
 
 t_token	*create_token(char key, char *val, long l)
 {
