@@ -21,3 +21,16 @@ int	ft_isspace(char c)
 		return (1);
 	return (0);
 }
+
+long	ft_strlen(const char *s)
+{
+	long	a;
+
+	a = 0;
+	while (*s)
+	{
+		a++;
+		s++;
+	}
+	return (a);
+}
