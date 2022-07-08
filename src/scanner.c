@@ -85,9 +85,9 @@ static int	data_cpy(t_token *tok, char key, char *val, long l)
 			return (-1);
 		}
 		if (key == 2)
-			ft_strcpy(tok->val, val, l);
+			ft_strncpy(tok->val, val, l);
 		else
-			ft_strcpy(tok->val, val + 1, l - 2);
+			ft_strncpy(tok->val, val + 1, l - 2);
 	}
 	return (0);
 }

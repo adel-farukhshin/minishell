@@ -1,6 +1,6 @@
 
 
-void	ft_strcpy(char *dst, const char *src, long len)
+void	ft_strncpy(char *dst, const char *src, long len)
 {
 	long	i;
 
