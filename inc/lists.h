@@ -1,18 +1,14 @@
 
-#ifndef T_LIST_H
-# define T_LIST_H
+#ifndef LISTS_H
+# define LISTS_H
 
 typedef struct s_list {
 	void			*val;
 	struct s_list	*next;
 }	t_list;
 
-typedef struct s_blist {
-	void			*key;
-	void			*val;
-	struct s_blist	*next;
-}	t_blist;
-
-
+t_list	*lst_new(void *val);
+void	lst_delone(t_list *lst);
+void	lst_clear(t_list **lst);
 
 #endif
