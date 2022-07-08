@@ -15,7 +15,7 @@ SRCDIR = ./src/
 OBJDIR = ./obj/
 INCDIR = ./inc/
 
-HEADERS = minishell.h scanner.h source.h
+HEADERS = minishell.h scanner.h source.h lists.h
 
 ${OBJDIR}%.o : ${SRCDIR}%.c ${addprefix ${INCDIR},${HEADERS}}
 	cc ${CFLAGS} -c $< -I${INCDIR} -o $@
