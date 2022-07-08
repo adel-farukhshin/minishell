@@ -2,6 +2,7 @@
 NAME = minishell
 
 SRC =	main.c \
+		lists.c	\
 		utils.c \
 		scanner.c \
 		find_token.c \
