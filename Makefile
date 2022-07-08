@@ -2,6 +2,8 @@
 NAME = minishell
 
 SRC =	main.c \
+		lists.c	\
+		blists.c \
 		utils.c \
 		scanner.c \
 		find_token.c \
@@ -14,7 +16,9 @@ SRCDIR = ./src/
 OBJDIR = ./obj/
 INCDIR = ./inc/
 
-HEADERS = minishell.h scanner.h source.h parser.h
+
+HEADERS = minishell.h scanner.h source.h lists.h blists.h parser.h
+
 
 ${OBJDIR}%.o : ${SRCDIR}%.c ${addprefix ${INCDIR},${HEADERS}}
 	cc ${CFLAGS} -c $< -I${INCDIR} -o $@
