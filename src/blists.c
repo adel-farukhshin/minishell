@@ -16,26 +16,30 @@ t_blist	*blst_new(void *key, void *val)
 	return (node);
 }
 
-void	blst_delone(t_blist *blst)
+void	blst_delone(t_blist *blst, void (*kdel)(void *),
+			void (*vdel)(void *))
 {
+	if (!kdel || !vdel)
+		return ;
 	if (blst)
 	{
-		free(blst->key);
-		free(blst->val);
+		(*kdel)(blst->key);
+		(*vdel)(blst->val);
 		free(blst);
 	}	
 }
 
-void	blst_clear(t_blist **blst)
+void	blst_clear(t_blist **blst, void (*kdel)(void *),
+			void (*vdel)(void *))
 {
 	t_blist	*tmp;
 
-	if (!blst || !*blst)
+	if (!blst || !*blst || !kdel || !vdel)
 		return ;
 	while (blst && *blst)
 	{
 		tmp = (*blst)->next;
-		blst_delone(*blst);
+		blst_delone(*blst, kdel, vdel);
 		*blst = tmp;
 	}
 }
