@@ -1,4 +1,6 @@
 
+#include <stdlib.h>
+#include "minishell.h"
 
 void	ft_strncpy(char *dst, const char *src, long len)
 {
@@ -33,4 +35,21 @@ long	ft_strlen(const char *s)
 		s++;
 	}
 	return (a);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	char	*ret;
+	char	*tmp;
+	int		i;
+
+	i = 0;
+	ret = malloc(ft_strlen(s1) + 1);
+	if (!ret)
+		return (NULL);
+	tmp = (char *) s1;
+	while (*tmp)
+		ret[i++] = *tmp++;
+	ret[i] = '\0';
+	return (ret);
 }
