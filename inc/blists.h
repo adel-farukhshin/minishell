@@ -9,7 +9,9 @@ typedef struct s_blist {
 }	t_blist;
 
 t_blist	*blst_new(void *key, void *val);
-void	blst_delone(t_blist *blst);
-void	blst_clear(t_blist **blst);
+void	blst_delone(t_blist *blst, void (*kdel)(void *),
+			void (*vdel)(void *));
+void	blst_clear(t_blist **blst, void (*kdel)(void *),
+			void (*vdel)(void *));
 
 #endif
