@@ -43,3 +43,45 @@ void	blst_clear(t_blist **blst, void (*kdel)(void *),
 		*blst = tmp;
 	}
 }
+
+void	blst_add_back(t_blist **blst, t_blist *new)
+{
+	while (*blst)
+		blst = &((*blst)->next);
+	*blst = new;
+}
+
+void	blst_add_front(t_blist **blst, t_blist *new)
+{
+	if (!*blst)
+		new->next = NULL;
+	else
+		new->next = *blst;
+	*blst = new;
+}
+
+// #include <stdio.h>
+// #include "minishell.h"
+
+// int	main(void)
+// {
+// 	t_blist	*start = NULL;
+// 	t_blist	*new;
+// 	char	*templ = ft_strdup("a");
+// 	char	*s;
+// 	char	mode = 1;
+
+// 	for (int i = 0; i < 3; i++)
+// 	{
+// 		new = blst_new(ft_strdup(templ), ft_strdup(templ));
+// 		printf("new: key %s val %s\n", new->key, new->val);
+// 		if (mode)
+// 			blst_add_front(&start, new);
+// 		else
+// 			blst_add_back(&start, new);
+// 		templ[0]++;
+// 	}
+// 	printf("start: key %s val %s\n", start->key, start->val);
+// 	blst_clear(&start, &free, &free);
+// 	free(templ);
+// }
