@@ -39,3 +39,45 @@ void	lst_clear(t_list **lst, void (*del)(void *))
 		*lst = tmp;
 	}
 }
+
+void	lst_add_back(t_list **lst, t_list *new)
+{
+	while (*lst)
+		lst = &((*lst)->next);
+	*lst = new;
+}
+
+void	lst_add_front(t_list **lst, t_list *new)
+{
+	if (!*lst)
+		new->next = NULL;
+	else
+		new->next = *lst;
+	*lst = new;
+}
+
+// #include <stdio.h>
+// #include "minishell.h"
+
+// int	main(void)
+// {
+// 	t_list	*start = NULL;
+// 	t_list	*new;
+// 	char	*templ = ft_strdup("a");
+// 	char	*s;
+// 	char	mode = 0;
+
+// 	for (int i = 0; i < 3; i++)
+// 	{
+// 		new = lst_new(ft_strdup(templ));
+// 		printf("new %s\n", new->val);
+// 		if (mode)
+// 			lst_add_front(&start, new);
+// 		else
+// 			lst_add_back(&start, new);
+// 		templ[0]++;
+// 	}
+// 	printf("start %s\n", start->val);
+// 	lst_clear(&start, &free);
+// 	free(templ);
+// }
