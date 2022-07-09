@@ -8,7 +8,7 @@ typedef struct s_list {
 }	t_list;
 
 t_list	*lst_new(void *val);
-void	lst_delone(t_list *lst);
-void	lst_clear(t_list **lst);
+void	lst_delone(t_list *lst, void (*del)(void *));
+void	lst_clear(t_list **lst, void (*del)(void *));
 
 #endif
