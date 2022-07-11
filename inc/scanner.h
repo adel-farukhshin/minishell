@@ -7,7 +7,7 @@
 typedef struct s_token {
 	void	*key;
 	void	*val;
-	void	*next;
+	struct s_token	*next;
 }	t_token;
 
 # define SEP 1 // is_space
