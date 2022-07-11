@@ -7,6 +7,7 @@ SRC =	main.c \
 		utils.c \
 		scanner.c \
 		find_token.c \
+		parser.c \
 
 OBJ = $(addprefix $(OBJDIR),$(SRC:.c=.o))
 
