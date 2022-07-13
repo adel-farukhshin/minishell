@@ -26,7 +26,7 @@ t_token	*find_token(t_src *src)
 	else if (key >= 1 && key <= 4)
 		len = find_len(src, key);
 	else if (key == 5)
-		len = 0;
+		len = 1;
 	else if (key == 6 || key == 7)
 		len = redir_token(src, &key);
 	if (len == -1)
@@ -35,7 +35,7 @@ t_token	*find_token(t_src *src)
 		src->s + src->curpos, len);
 	if (!tok)
 		return (NULL);
-	src->curpos += len + 1;
+	src->curpos += len;
 	return (tok);
 }
 
@@ -66,12 +66,12 @@ static long	find_len(t_src *src, char key)
 
 	len = 0;
 	if (key == 1 || key == 2)
-		while (find_key(src->s[src->curpos + ++len]) == key);
+		while (find_key(src->s[src->curpos + len++]) == key);
 	else if (key == 3 || key == 4)
 	{
-		tkey = find_key(src->s[src->curpos + ++len]);
+		tkey = find_key(src->s[src->curpos + len++]);
 		while (tkey && tkey != key)
-			tkey = find_key(src->s[src->curpos + ++len]);
+			tkey = find_key(src->s[src->curpos + len++]);
 		if (!tkey)
 			return (-1);
 		len++;
@@ -91,7 +91,7 @@ static long	redir_token(t_src *src, char *key)
 			*key = 8;
 		else
 			*key = 9;
-		return (1);
+		return (2);
 	}
-	return (0);
+	return (1);
 }
