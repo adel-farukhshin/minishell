@@ -209,6 +209,7 @@ char	*word_create(t_token **token)
 	// printf("word_create: before while \n");
 	len = 0;
 	tmp = *token;
+	end = tmp;
 	while(tmp && *(int *)tmp->key >= WORD &&
 			*(int *)tmp->key <= EXT_FIELD)
 	{
