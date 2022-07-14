@@ -57,6 +57,8 @@ t_blist	*parse_tokens(t_token *tok)
 				return (NULL);
 			((t_command *)(cur_cmd->key))->pipe = 1;
 			cur_cmd = command_create(NULL, NULL);
+			if (!cur_cmd)
+				return (NULL);
 			blst_add_back(&cmds, cur_cmd);
 		}
 		else if (*(int *)tok->key >= REDIR_OUT && *(int *)tok->key <= REDIR_INSOURCE)
