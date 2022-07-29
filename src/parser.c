@@ -36,6 +36,7 @@ t_blist	*parse_tokens(t_token *tok)
 	t_blist	*cur_cmd;
 	char	*word;
 	char	mode;
+	t_list	*lst;
 
 	cmds = command_create(NULL, NULL); // free
 	if (!cmds)
@@ -78,7 +79,13 @@ t_blist	*parse_tokens(t_token *tok)
 			tok = NULL;
 			return (NULL);
 		}
-		append(cur_cmd, lst_new(word), &mode);
+		lst = lst_new(word);
+		if (!lst)
+		{
+			tok = NULL;
+			return (NULL);
+		}
+		append(cur_cmd, lst, &mode);
 		// printf("after append %p\n", ((t_list *)((t_command *)cur_cmd->key)->f_out));
 		// printf("parse: in while, before tok increase %s\n", (char *)tok->val);
 		tok = tok->next;
@@ -126,6 +133,10 @@ t_blist	*command_create(void *key, void *val)
 		key = malloc(sizeof(t_command));
 		if (!key)
 			return (NULL);
+		((t_command *)key)->f_in = NULL;
+		((t_command *)key)->f_out = NULL;
+		((t_command *)key)->f_ap = NULL;
+		((t_command *)key)->delim = NULL;
 	}
 	cmd = blst_new(key, val);
 	if (!cmd)
