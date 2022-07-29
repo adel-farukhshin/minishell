@@ -45,12 +45,12 @@ t_blist	*parse_tokens(t_token *tok)
 	// printf("parse: before while\n");
 	while (tok)
 	{
-		if (*(int *)tok->key == SEP)
+		if (*(char *)tok->key == SEP)
 		{
 			tok = tok->next;
 			continue ;
 		}
-		else if (*(int *)tok->key == PIPE)
+		else if (*(char *)tok->key == PIPE)
 		{
 			tok = check_pipe_syntax(tok->next, &mode);
 			if (!tok)
@@ -61,13 +61,13 @@ t_blist	*parse_tokens(t_token *tok)
 				return (NULL);
 			blst_add_back(&cmds, cur_cmd);
 		}
-		else if (*(int *)tok->key >= REDIR_OUT && *(int *)tok->key <= REDIR_INSOURCE)
+		else if (*(char *)tok->key >= REDIR_OUT && *(char *)tok->key <= REDIR_INSOURCE)
 		{
 			tok = check_redir_syntax(tok, &mode);
 			if (!tok)
 				return (NULL);
 		}
-		else if (*(int *)tok->key >= WORD && *(int *)tok->key <= EXT_FIELD)
+		else if (*(char *)tok->key >= WORD && *(char *)tok->key <= EXT_FIELD)
 			mode = M_ARG;
 		else
 			return (NULL);
@@ -212,8 +212,8 @@ char	*word_create(t_token **token)
 	len = 0;
 	tmp = *token;
 	end = tmp;
-	while(tmp && *(int *)tmp->key >= WORD &&
-			*(int *)tmp->key <= EXT_FIELD)
+	while(tmp && *(char *)tmp->key >= WORD &&
+			*(char *)tmp->key <= EXT_FIELD)
 	{
 		// printf("word_create: in while %s\n", (char *)tmp->val);
 		end = tmp;
