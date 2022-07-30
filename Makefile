@@ -7,6 +7,7 @@ SRC =	main.c \
 		utils.c \
 		scanner.c \
 		find_token.c \
+		node.c \
 		parser.c \
 
 OBJ = $(addprefix $(OBJDIR),$(SRC:.c=.o))
@@ -22,6 +23,7 @@ HEADERS =	minishell.h \
 			source.h \
 			lists.h \
 			blists.h \
+			node.h \
 			parser.h \
 
 ${OBJDIR}%.o : ${SRCDIR}%.c ${addprefix ${INCDIR},${HEADERS}}
