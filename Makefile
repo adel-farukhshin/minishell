@@ -4,6 +4,7 @@ NAME = minishell
 SRC =	main.c \
 		lists.c	\
 		blists.c \
+		linked_lists.c \
 		utils.c \
 		scanner.c \
 		find_token.c \
@@ -23,6 +24,7 @@ HEADERS =	minishell.h \
 			source.h \
 			lists.h \
 			blists.h \
+			linked_lists.h \
 			node.h \
 			parser.h \
 
