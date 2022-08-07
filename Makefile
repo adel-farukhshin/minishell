@@ -10,6 +10,7 @@ SRC =	main.c \
 		find_token.c \
 		node.c \
 		parser.c \
+		extend_arg.c \
 
 OBJ = $(addprefix $(OBJDIR),$(SRC:.c=.o))
 

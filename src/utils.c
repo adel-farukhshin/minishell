@@ -53,3 +53,23 @@ char	*ft_strdup(const char *s1)
 	ret[i] = '\0';
 	return (ret);
 }
+
+char	*ft_strchr(const char *s, int c)
+{
+	char	a;
+	char	*r;
+
+	a = (char) c;
+	r = (char *) s;
+	while (*r)
+	{
+		if (*r == a)
+		{
+			return (r);
+		}
+		r++;
+	}
+	if (a == '\0')
+		return (r);
+	return (NULL);
+}

@@ -3,6 +3,7 @@
 
 #include "scanner.h"
 #include "node.h"
+#include "linked_lists.h"
 
 /**
  * @brief 
@@ -12,7 +13,15 @@
  * @param t 
  * @return t_node* 
  */
-t_node *parse(t_token *t);
+t_node *parse(t_l_list *token_list);
+
+/**
+ * @brief 
+ * Private function.
+ * 
+ * @return 0 - extension isn't needed; 1 - successful extension; -1 - error
+ */
+char extend_arg(t_blist *tok);
 
 
 #endif
