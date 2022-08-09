@@ -68,7 +68,11 @@ CPPFLAGS += -isystem $(gtest_dir)/include -isystem $(gmock_dir)/include
 CXXFLAGS += -g -Wall -Wextra -pthread
 
 test_objects	:= $(subst .cpp,_test.o,$(subst ${unit_test_dir},${unit_test_build_dir},${unit_tests}))
-test_objects	+= $(subst .cpp,.o,$(subst ${unit_test_dir},${obj_dir},${unit_tests}))
+test_c_objects	:= ${wildcard $(patsubst %.cpp,%,$(subst ${unit_test_dir},${src_dir},${unit_tests}))*.c}
+test_objects	+= ${subst .c,.o,${subst ${src_dir},${obj_dir},${test_c_objects}}}
+
+# special depenencies
+test_objects += ${obj_dir}/utils.o
 
 utest: utest-build
 	${all_unit_tests}
