@@ -80,4 +80,6 @@ t_node *error_node_new(const char *msg);
  */
 void *node_drop(t_node *node);
 
+void print_node(t_node *node, int intend);
+
 #endif

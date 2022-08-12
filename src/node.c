@@ -71,6 +71,44 @@ void *node_drop(t_node *node)
 	return (NULL);
 }
 
+void	print_intends(int intend);
+
+void print_node(t_node *node, int intend)
+{
+	t_list *arg;
+
+	if (node->type == error_node)
+		printf("Error: %s\n", node->value.error_msg);
+	else if (node->type == cmd_node)
+	{
+		print_intends(intend);
+		arg = node->value.cmd_val.args;
+		printf("%s\n", (char *)arg->val);
+		print_intends(intend + 2);
+		while (arg)
+		{
+			printf("%s ", (char *)arg->val);
+			arg = arg->next;
+		}
+		printf("\n");
+	}
+	else
+	{
+		printf("Pipe\n");
+		print_node(node->value.pipe_val.left, intend + 2);
+		print_node(node->value.pipe_val.right, intend + 2);
+	}
+}
+
+void	print_intends(int intend)
+{
+	while (intend > 0)
+	{
+		printf(" ");
+		intend--;
+	}
+}
+
 // int	main()
 // {
 	// t_node *left;
