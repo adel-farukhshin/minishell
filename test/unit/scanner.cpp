@@ -187,6 +187,25 @@ TEST(scanner, tok_redir_out) {
 	ASSERT_EQ(6, *(char *)r->key);
 }
 
+TEST(scanner, tok_redir_out_with_fname) {
+	t_src	src;
+	src.s = "> file";
+	src.curpos = 0;
+	src.len = strlen(src.s);
+	t_token	*r, *r1, *r2;
+	r = tokenize(&src);
+	ASSERT_EQ(6, *(char *)r->key);
+	
+	r1 = r->next;
+	ASSERT_NE((void *)NULL, r1);
+	ASSERT_EQ(1, *(char *)r1->key);
+
+	r2 = r1->next;
+	ASSERT_NE((void *)NULL, r2);
+	ASSERT_EQ(2, *(char *)r2->key);
+	ASSERT_STREQ("file", (char *)r2->val);
+}
+
 TEST(scanner, tok_redir_in) {
 	t_src	src;
 	src.s = "<";
@@ -195,6 +214,25 @@ TEST(scanner, tok_redir_in) {
 	t_token	*r;
 	r = tokenize(&src);
 	ASSERT_EQ(7, *(char *)r->key);
+}
+
+TEST(scanner, tok_redir_in_with_fname) {
+	t_src	src;
+	src.s = "< file";
+	src.curpos = 0;
+	src.len = strlen(src.s);
+	t_token	*r, *r1, *r2;
+	r = tokenize(&src);
+	ASSERT_EQ(7, *(char *)r->key);
+	
+	r1 = r->next;
+	ASSERT_NE((void *)NULL, r1);
+	ASSERT_EQ(1, *(char *)r1->key);
+
+	r2 = r1->next;
+	ASSERT_NE((void *)NULL, r2);
+	ASSERT_EQ(2, *(char *)r2->key);
+	ASSERT_STREQ("file", (char *)r2->val);
 }
 
 TEST(scanner, tok_redir_append) {
@@ -207,6 +245,25 @@ TEST(scanner, tok_redir_append) {
 	ASSERT_EQ(8, *(char *)r->key);
 }
 
+TEST(scanner, tok_redir_append_with_fname) {
+	t_src	src;
+	src.s = ">> file";
+	src.curpos = 0;
+	src.len = strlen(src.s);
+	t_token	*r, *r1, *r2;
+	r = tokenize(&src);
+	ASSERT_EQ(8, *(char *)r->key);
+	
+	r1 = r->next;
+	ASSERT_NE((void *)NULL, r1);
+	ASSERT_EQ(1, *(char *)r1->key);
+
+	r2 = r1->next;
+	ASSERT_NE((void *)NULL, r2);
+	ASSERT_EQ(2, *(char *)r2->key);
+	ASSERT_STREQ("file", (char *)r2->val);
+}
+
 TEST(scanner, tok_redir_insource) {
 	t_src	src;
 	src.s = "<<";
@@ -215,6 +272,25 @@ TEST(scanner, tok_redir_insource) {
 	t_token	*r;
 	r = tokenize(&src);
 	ASSERT_EQ(9, *(char *)r->key);
+}
+
+TEST(scanner, tok_redir_insource_with_fname) {
+	t_src	src;
+	src.s = "<< file";
+	src.curpos = 0;
+	src.len = strlen(src.s);
+	t_token	*r, *r1, *r2;
+	r = tokenize(&src);
+	ASSERT_EQ(9, *(char *)r->key);
+	
+	r1 = r->next;
+	ASSERT_NE((void *)NULL, r1);
+	ASSERT_EQ(1, *(char *)r1->key);
+
+	r2 = r1->next;
+	ASSERT_NE((void *)NULL, r2);
+	ASSERT_EQ(2, *(char *)r2->key);
+	ASSERT_STREQ("file", (char *)r2->val);
 }
 
 TEST(scanner, cmd) {
