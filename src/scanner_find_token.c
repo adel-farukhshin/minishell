@@ -60,8 +60,8 @@ t_token	*find_token(t_src *src)
 		return (NULL);
 	else if (key >= 1 && key <= 4)
 		val = create_val(src, key);
-	else if (key == 5)
-		len = 0;
+	// else if (key == 5)
+	// 	len = 0;
 	else if (key == 6 || key == 7)
 		len = redir_token(src, &key);
 	if (len == -1)
@@ -158,6 +158,7 @@ static long	redir_token(t_src *src, char *key)
 	tkey = find_key(src->s[src->curpos + 1]);
 	if (tkey == *key)
 	{
+		src->curpos += 1;
 		if (tkey == 6)
 			*key = 8;
 		else
