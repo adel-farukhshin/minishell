@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 
-static int	data_cpy(t_token *tok, char key, char *val, long l);
+// static int	data_cpy(t_token *tok, char key, char *val, long l);
 void		free_token_list(t_token *head);
 
 t_token	*tokenize(t_src *src)
@@ -68,29 +68,32 @@ t_token	*create_token(char key, char *val, long l)
 	}
 	tok->val = NULL;
 	tok->next = NULL;
-	if (data_cpy(tok, key, val, l))
-		return (NULL);
+	*(char *)tok->key = key;
+	tok->val = val;
+	(void) l;
+	// if (data_cpy(tok, key, val, l))
+	// 	return (NULL);
 	return (tok);
 }
 
-static int	data_cpy(t_token *tok, char key, char *val, long l)
-{
-	*(char *)tok->key = key;
-	if (key >= 2 && key <= 4)
-	{	
-		tok->val = malloc(sizeof(char) * l + 1);
-		if (!tok->val)
-		{
-			free_token(tok, 1);
-			return (-1);
-		}
-		if (key == 2)
-			ft_strncpy(tok->val, val, l);
-		else
-			ft_strncpy(tok->val, val + 1, l - 2);
-	}
-	return (0);
-}
+// static int	data_cpy(t_token *tok, char key, char *val, long l)
+// {
+// 	*(char *)tok->key = key;
+// 	if (key >= 2 && key <= 4)
+// 	{	
+// 		tok->val = malloc(sizeof(char) * l + 1);
+// 		if (!tok->val)
+// 		{
+// 			free_token(tok, 1);
+// 			return (-1);
+// 		}
+// 		if (key == 2)
+// 			ft_strncpy(tok->val, val, l);
+// 		else
+// 			ft_strncpy(tok->val, val + 1, l - 2);
+// 	}
+// 	return (0);
+// }
 
 void	free_token(t_token *tok, char m)
 {

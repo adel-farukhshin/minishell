@@ -22,6 +22,14 @@ typedef struct s_token {
 
 t_token	*tokenize(t_src *src);
 
+/**
+ * @brief 
+ * Loops src. After every invocation curpos equals the first character after the previous token.
+ * 
+ * @param src 
+ * @return t_token* 
+ * @return NULL: 1) EOF 2) error with quotes
+ */
 t_token	*find_token(t_src *src);
 t_token	*create_token(char key, char *val, long l);
 void	free_token(t_token *tok, char m);
