@@ -49,23 +49,21 @@ t_token	*find_token(t_src *src)
 // return: token; NULL: 1) EOF 2) error with quotes
 {
 	t_token	*tok;
-	long	len;
 	char	key;
 	char	*val;
 
 	tok = NULL;
-	len = 0;
 	key = find_key(src->s[src->curpos]);
 	if (!key)
 		return (NULL);
 	else if (key >= 1 && key <= 4)
+	{
 		val = create_val(src, key);
-	// else if (key == 5)
-	// 	len = 0;
+		if (!val)
+			return (NULL);
+	}
 	else if (key == 6 || key == 7)
-		len = redir_token(src, &key);
-	if (len == -1)
-		return (NULL);
+		redir_token(src, &key);
 	tok = create_token(key, val);
 	if (!tok)
 		return (NULL);
