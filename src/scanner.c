@@ -7,7 +7,6 @@
 
 #include <stdio.h>
 
-// static int	data_cpy(t_token *tok, char key, char *val, long l);
 void		free_token_list(t_token *head);
 
 t_token	*tokenize(t_src *src)
@@ -53,7 +52,7 @@ void	free_token_list(t_token *head)
 	}
 }
 
-t_token	*create_token(char key, char *val, long l)
+t_token	*create_token(char key, char *val)
 {
 	t_token	*tok;
 		
@@ -70,9 +69,6 @@ t_token	*create_token(char key, char *val, long l)
 	tok->next = NULL;
 	*(char *)tok->key = key;
 	tok->val = val;
-	(void) l;
-	// if (data_cpy(tok, key, val, l))
-	// 	return (NULL);
 	return (tok);
 }
 

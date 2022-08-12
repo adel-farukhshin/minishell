@@ -8,7 +8,6 @@
 #include "minishell.h"
 
 static char	find_key(char c);
-// static long	find_len(t_src *src, char key);
 static long	redir_token(t_src *src, char *key);
 
 /**
@@ -20,6 +19,18 @@ static long	redir_token(t_src *src, char *key);
  * @param key 
  * @return char* 
  */
+
+/**
+ * @brief 
+ * Parses fields. Returns 0 on success and 1 on failure.
+ * 
+ * @param src 
+ * @param key 
+ * @param len 
+ * @return char 
+ */
+char	process_fields(t_src *src, char key, long *len);
+
 static char	*create_val(t_src *src, char key);
 /**
  * @brief 
@@ -44,24 +55,20 @@ t_token	*find_token(t_src *src)
 
 	tok = NULL;
 	len = 0;
-	// printf("in find_token\n");
 	key = find_key(src->s[src->curpos]);
 	if (!key)
 		return (NULL);
 	else if (key >= 1 && key <= 4)
 		val = create_val(src, key);
-		// len = find_len(src, key);
 	else if (key == 5)
-		len = 0; // make zero; we do not read this field
+		len = 0;
 	else if (key == 6 || key == 7)
 		len = redir_token(src, &key);
 	if (len == -1)
 		return (NULL);
-	tok = create_token(key, val, len);
-	// printf("len after creating token is %ld\n", len);
+	tok = create_token(key, val);
 	if (!tok)
 		return (NULL);
-	// src->curpos += len;
 	src->curpos += 1;
 	return (tok);
 }
@@ -71,7 +78,7 @@ static char	find_key(char c)
 	if (!c)
 		return (0);
 	else if (ft_isspace(c))
-		return (1); // sep
+		return (1);
 	else if (c == '\'')
 		return (3);
 	else if (c == '\"')
@@ -83,14 +90,13 @@ static char	find_key(char c)
 	else if (c == '<')
 		return (7);
 	else
-		return (2); // word
+		return (2);
 }
 
 static char	*create_val(t_src *src, char key)
 {
 	char	*val;
 	long	len;	
-	char	tkey;
 
 	len = 0;
 	if (key == SEP || key == WORD)
@@ -101,13 +107,7 @@ static char	*create_val(t_src *src, char key)
 	else
 	{
 		src->curpos += 1;
-		tkey = find_key(src->s[src->curpos + len]);
-		while (tkey && tkey != key)
-		{
-			len++;
-			tkey = find_key(src->s[src->curpos + len]);
-		}
-		if (!tkey)
+		if (process_fields(src, key, &len))
 			return (NULL);
 	}
 	val = NULL;
@@ -115,9 +115,26 @@ static char	*create_val(t_src *src, char key)
 	if (key == SEP || key == WORD)
 		len -= 1;
 	src->curpos += len;
-	// printf("val is _%s_\nthe first char is_%c_\n", val, *(src->s + src->curpos));
-	// update curpos
 	return (val);
+}
+
+char	process_fields(t_src *src, char key, long *len)
+{
+	char	tkey;
+	long	l;
+
+	l = *len;
+
+	tkey = find_key(src->s[src->curpos + l]);
+	while (tkey && tkey != key)
+	{
+		l++;
+		tkey = find_key(src->s[src->curpos + l]);
+	}
+	*len = l;
+	if (!tkey)
+		return (1);
+	return (0);
 }
 
 static void val_cpy(char **val, t_src *src, char key, long len)
@@ -133,37 +150,6 @@ static void val_cpy(char **val, t_src *src, char key, long len)
 	else
 		ft_strncpy(*val, src->s + src->curpos, len);
 }
-
-/*
-static long	find_len(t_src *src, char key)
-{
-	long	len;
-	char	tkey;
-
-	len = 0;
-	// printf("find_len: key is %d\n", key);
-	// printf("cur: %s\n", src->s + src->curpos);
-	if (key == 1 || key == 2)
-		while (find_key(src->s[src->curpos + len++]) == key)
-			;
-			// printf("len: %ld\n", len);
-	else if (key == 3 || key == 4)
-	{
-		src->curpos += 1;
-		printf("ch before: %c\n", src->s[src->curpos + len]);
-		tkey = find_key(src->s[src->curpos + len++]);
-		printf("ch after: %c\n", src->s[src->curpos + len]);
-		while (tkey && tkey != key)
-			tkey = find_key(src->s[src->curpos + len++]);
-		if (!tkey)
-			return (-1);
-		len++;
-	}
-	len--;
-	// printf("exit find_len\n");
-	return (len);
-}
-*/
 
 static long	redir_token(t_src *src, char *key)
 {

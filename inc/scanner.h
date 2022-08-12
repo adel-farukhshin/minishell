@@ -31,7 +31,7 @@ t_token	*tokenize(t_src *src);
  * @return NULL: 1) EOF 2) error with quotes
  */
 t_token	*find_token(t_src *src);
-t_token	*create_token(char key, char *val, long l);
+t_token	*create_token(char key, char *val);
 void	free_token(t_token *tok, char m);
 void	free_token_list(t_token *head);
 
