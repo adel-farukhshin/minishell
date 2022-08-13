@@ -114,17 +114,19 @@ void skip_sep(t_l_list *t)
 
 static char	parse_arg(t_l_list *t, char **ret_val)
 {
+	t_list	*val_list;
+	t_list	*n;
 	t_blist	*tok;
 	char	*tmp_val;
 
 	tmp_val = NULL;
+	val_list = NULL;
 	skip_sep(t);
-	// loop args
-	
-	// concatenation
-	
 	tok = ll_peek(t);
-	if (ll_has_next(t) && (*(char *)tok->key == WORD 
+	if (!ll_has_next(t) || (*(char *)tok->key != WORD 
+			&& *(char *)tok->key != FIELD && *(char *)tok->key != EXT_FIELD))
+		return (-2);
+	while (ll_has_next(t) && (*(char *)tok->key == WORD 
 			|| *(char *)tok->key == FIELD || *(char *)tok->key == EXT_FIELD))
 	{
 		// extend
@@ -133,12 +135,25 @@ static char	parse_arg(t_l_list *t, char **ret_val)
 			if (extend_arg(tok))
 				return (-1);
 		}
-		tmp_val = ft_strdup(ll_take(t)->val);
-	}
-	else
-		return (-2);
+		tok = ll_take(t);
+		tmp_val = ft_strdup(tok->val);
+		tok = ll_peek(t);
+		if (!tmp_val)
+		{
+			lst_clear(&val_list, free);
+			return (-1);
+		}
+		n = lst_new(tmp_val);
+		if (!n)
+		{
+			lst_clear(&val_list, free);
+			return (-1);
+		}
+		lst_add_back(&val_list, n);
+	}	
 	skip_sep(t);
-	*ret_val = tmp_val;
+	*ret_val = str_join(val_list);
+	lst_clear(&val_list, free);
 	return (0);
 }
 
