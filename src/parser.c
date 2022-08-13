@@ -119,8 +119,11 @@ static char	*parse_arg(t_l_list *t)
 			|| *(char *)tok->key == FIELD || *(char *)tok->key == EXT_FIELD))
 	{
 		// extend
-		if (extend_arg(tok))
-			return (NULL);
+		if ((*(char *)tok->key == WORD || *(char *)tok->key == EXT_FIELD))
+		{
+			if (extend_arg(tok))
+				return (NULL);
+		}
 		val = ft_strdup(ll_take(t)->val);
 	}
 	else
