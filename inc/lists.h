@@ -11,7 +11,7 @@ t_list	*lst_new(void *val);
 void	lst_delone(t_list *lst, void (*del)(void *));
 void	lst_clear(t_list **lst, void (*del)(void *));
 
-void	lst_add_back(t_list **lst, t_list *new);
-void	lst_add_front(t_list **lst, t_list *new);
+void	lst_add_back(t_list **lst, t_list *n);
+void	lst_add_front(t_list **lst, t_list *n);
 
 #endif

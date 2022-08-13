@@ -14,7 +14,7 @@ void	blst_delone(t_blist *blst, void (*kdel)(void *),
 void	blst_clear(t_blist **blst, void (*kdel)(void *),
 			void (*vdel)(void *));
 
-void	blst_add_front(t_blist **blst, t_blist *new);
-void	blst_add_back(t_blist **blst, t_blist *new);
+void	blst_add_front(t_blist **blst, t_blist *n);
+void	blst_add_back(t_blist **blst, t_blist *n);
 
 #endif

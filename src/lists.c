@@ -40,20 +40,20 @@ void	lst_clear(t_list **lst, void (*del)(void *))
 	}
 }
 
-void	lst_add_back(t_list **lst, t_list *new)
+void	lst_add_back(t_list **lst, t_list *n)
 {
 	while (*lst)
 		lst = &((*lst)->next);
-	*lst = new;
+	*lst = n;
 }
 
-void	lst_add_front(t_list **lst, t_list *new)
+void	lst_add_front(t_list **lst, t_list *n)
 {
 	if (!*lst)
-		new->next = NULL;
+		n->next = NULL;
 	else
-		new->next = *lst;
-	*lst = new;
+		n->next = *lst;
+	*lst = n;
 }
 
 // #include <stdio.h>
