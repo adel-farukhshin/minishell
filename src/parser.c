@@ -62,8 +62,29 @@ static t_node	*parse_cmd(t_l_list *t)
 	}
 
 	// parse_redir
+	char	key;
+	while (ll_has_next(t) &&*(char *) tok->key >= REDIR_OUT && *(char *) tok->key <= REDIR_INSOURCE)
+	{
+		key = *(char *)tok->key;
+		tok = ll_take(t);
+		arg = parse_arg(t);
+		if (arg)
+		{
+			if (cmd_add_redir(cmd, arg, key) == -1)
+			{
+				node_drop(cmd);
+				return (error_node_new("error in adding redir"));;
+			}
+		}
+		else
+		{
+			node_drop(cmd);
+			return (error_node_new("error in parsing redir"));
+		}
+		tok = ll_peek(t);
+	}
 
-
+	// Parse pipe
 	if (ll_has_next(t) && *(char *)tok->key == PIPE)
 	{
 		ll_take(t);
@@ -90,6 +111,9 @@ static char	*parse_arg(t_l_list *t)
 
 	skip_sep(t);
 	// loop args
+	
+	// concatenation
+	
 	tok = ll_peek(t);
 	if (ll_has_next(t) && (*(char *)tok->key == WORD 
 			|| *(char *)tok->key == FIELD || *(char *)tok->key == EXT_FIELD))
