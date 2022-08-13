@@ -234,6 +234,22 @@ TEST(parser, redir_out_without_cmdname_without_sep) {
 	ASSERT_STREQ("file", (char *)cmd->value.cmd_val.r_out->val);
 }
 
+TEST(parser, redir_out_without_cmdname_without_fname) {
+	t_src	src;
+	src.s = ">";
+	src.curpos = 0;
+	src.len = strlen(src.s);
+	t_token		*tl = tokenize(&src);
+	t_l_list	*tok_list = ll_new((t_blist *)tl);
+
+	// check tl
+	ASSERT_EQ(6, *(char *)tl->key);
+	
+	t_node *cmd;
+	cmd = parse(tok_list);
+	ASSERT_EQ(error_node, cmd->type);
+}
+
 TEST(parser, redir_in_without_cmdname_with_sep) {
 	t_src	src;
 	src.s = "< file";
@@ -451,6 +467,21 @@ TEST(parser, pipe_with_cmd_with_redir_2)
 	ASSERT_STREQ("file", (char *)cmd->value.cmd_val.r_in->val);
 }
 
+TEST(parser, cmd_full_null) {
+	t_src	src;
+	src.s = " ";
+	src.curpos = 0;
+	src.len = strlen(src.s);
+	t_token		*tl = tokenize(&src);
+	t_l_list	*tok_list = ll_new((t_blist *)tl);
+
+	// check tl
+	ASSERT_EQ(1, *(char *)tl->key);
+
+	t_node *cmd;
+	cmd = parse(tok_list);
+	ASSERT_EQ(error_node, cmd->type);	
+}
 
 TEST(parser, pipe_without_cmd_with_redir) {
 	t_src	src;
