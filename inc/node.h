@@ -15,6 +15,10 @@ typedef const char *t_error_value;
 
 typedef struct s_cmd_value {
 	t_list	*args;
+	t_list	*r_out; // >
+	t_list	*r_in; // <
+	t_list	*r_app; // >>
+	t_list	*r_ins; // <<
 } t_cmd_value;
 
 typedef struct s_pipe_value {
@@ -33,10 +37,15 @@ struct s_node {
 	t_node_value	value;
 };
 
+#define R_OUT 6
+#define R_IN 7
+#define R_APP 8
+#define R_INS 9
+
 /**
  * @brief 
  * Creates a cmd_node and adds cmd_name to list of arguments (args). Cmd_name must not be null and
- * must be pre-allocated. Returns created node or null in case of memory error
+ * must be pre-allocated. Also nulls all redirs. Returns created node or null in case of memory error
  * @param s 
  * @return t_node* 
  */
@@ -51,6 +60,18 @@ t_node *cmd_node_new(const char *cmd_name);
  * @return char 
  */
 char	cmd_add_arg(t_node *cmd, const char *arg);
+
+/**
+ * @brief 
+ * Adds redirection file name to command. The type of redirection is specified in the type.
+ * Returns 0, if it was sucessful, and -1 if not. 
+ * 
+ * @param cmd 
+ * @param redir 
+ * @param type 
+ * @return char 
+ */
+char	cmd_add_redir(t_node *cmd, const char *redir, char type);
 
 /**
  * @brief 

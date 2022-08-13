@@ -19,6 +19,10 @@ t_node *cmd_node_new(const char *cmd_name)
 		free(node);
 		return (NULL);
 	}
+	node->value.cmd_val.r_out = NULL;
+	node->value.cmd_val.r_in = NULL;
+	node->value.cmd_val.r_app = NULL;
+	node->value.cmd_val.r_ins = NULL;
 	return (node);
 }
 
@@ -30,6 +34,24 @@ char	cmd_add_arg(t_node *cmd, const char *arg)
 	if (!new)
 		return (-1);
 	lst_add_back(&cmd->value.cmd_val.args, new);
+	return (0);
+}
+
+char	cmd_add_redir(t_node *cmd, const char *redir, char type)
+{
+	t_list	*new_file;
+
+	new_file = lst_new((void*)redir);
+	if (!new_file)
+		return (-1);
+	if (type == R_OUT)
+		lst_add_back(&cmd->value.cmd_val.r_out, new_file);
+	else if (type == R_IN)
+		lst_add_back(&cmd->value.cmd_val.r_in, new_file);
+	else if (type == R_APP)
+		lst_add_back(&cmd->value.cmd_val.r_app, new_file);
+	else if (type == R_INS)
+		lst_add_back(&cmd->value.cmd_val.r_ins, new_file);
 	return (0);
 }
 
@@ -66,12 +88,20 @@ void *node_drop(t_node *node)
 		node_drop(node->value.pipe_val.right);
 	}
 	else if (node->type == cmd_node)
+	{
 		lst_clear(&(node->value.cmd_val.args), free);
+		lst_clear(&(node->value.cmd_val.r_in), free);
+		lst_clear(&(node->value.cmd_val.r_out), free);
+		lst_clear(&(node->value.cmd_val.r_app), free);
+		lst_clear(&(node->value.cmd_val.r_ins), free);
+	}
 	free(node);
 	return (NULL);
 }
 
 void	print_intends(int intend);
+void	print_redirs(t_node *node, int intend);
+void	print_redir(const char *msg, t_list *f, int intend);
 
 void print_node(t_node *node, int intend)
 {
@@ -91,6 +121,7 @@ void print_node(t_node *node, int intend)
 			arg = arg->next;
 		}
 		printf("\n");
+		print_redirs(node, intend + 2);
 	}
 	else
 	{
@@ -108,6 +139,37 @@ void	print_intends(int intend)
 		intend--;
 	}
 }
+
+void	print_redirs(t_node *node, int intend)
+{
+	t_list *r;
+
+	r = node->value.cmd_val.r_in;
+	if (r)
+		print_redir("r_in", r, intend);
+	r = node->value.cmd_val.r_out;
+	if (r)
+		print_redir("r_out", r, intend);
+	r = node->value.cmd_val.r_app;
+	if (r)
+		print_redir("r_app", r, intend);
+	r = node->value.cmd_val.r_ins;
+	if (r)
+		print_redir("r_ins", r, intend);
+}
+
+void	print_redir(const char *msg, t_list *f, int intend)
+{
+	print_intends(intend);
+	printf("%s:", msg);
+	while (f)
+	{
+		printf(" %s", (char *)f->val);
+		f = f->next;
+	}
+	printf("\n");
+}
+
 
 // int	main()
 // {
