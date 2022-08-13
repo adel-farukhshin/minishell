@@ -15,7 +15,8 @@
 // PIPE		::= CMD + CMD
 
 static t_node	*parse_cmd(t_l_list *t);
-static char		*parse_arg(t_l_list *t);
+// @return: 0 - success; -1 error; -2 - arg was not found
+static char		parse_arg(t_l_list *t, char **ret_val);
 static t_node	*parse_pipe(t_l_list *t, t_node *cmd);
 
 static void		skip_sep(t_l_list *t);
@@ -34,20 +35,20 @@ static t_node	*parse_cmd(t_l_list *t)
 	char	*arg;
 	t_blist	*tok;
 
-	arg = parse_arg(t);
-	if (arg)
-		cmd = cmd_node_new(arg);
-	else
+	arg = NULL;
+	if (parse_arg(t, &arg) == -1)
 		return (error_node_new("error in parsing argument"));
+	else
+		cmd = cmd_node_new(arg);
 	
 	// add args
 	tok = ll_peek(t);
 	while (ll_has_next(t) &&*(char *) tok->key >= WORD && *(char *) tok->key <= EXT_FIELD)
 	{
-		arg = parse_arg(t);
-		if (arg)
+		
+		if (parse_arg(t, &arg) == 0)
 		{
-			if (cmd_add_arg(cmd, arg) == -1)
+			if (cmd_add_arg(cmd, arg))
 			{
 				node_drop(cmd);
 				return (error_node_new("error in adding argument"));
@@ -67,10 +68,9 @@ static t_node	*parse_cmd(t_l_list *t)
 	{
 		key = *(char *)tok->key;
 		tok = ll_take(t);
-		arg = parse_arg(t);
-		if (arg)
+		if (parse_arg(t, &arg) == 0)
 		{
-			if (cmd_add_redir(cmd, arg, key) == -1)
+			if (cmd_add_redir(cmd, arg, key))
 			{
 				node_drop(cmd);
 				return (error_node_new("error in adding redir"));;
@@ -83,6 +83,14 @@ static t_node	*parse_cmd(t_l_list *t)
 		}
 		tok = ll_peek(t);
 	}
+
+	// Check for full null command
+	if (!cmd->value.cmd_val.args->val &&
+		!cmd->value.cmd_val.r_out &&
+		!cmd->value.cmd_val.r_in &&
+		!cmd->value.cmd_val.r_app &&
+		!cmd->value.cmd_val.r_ins)
+		return (error_node_new("error in command syntax"));
 
 	// Parse pipe
 	if (ll_has_next(t) && *(char *)tok->key == PIPE)
@@ -104,11 +112,12 @@ void skip_sep(t_l_list *t)
 		ll_take(t);
 }
 
-static char	*parse_arg(t_l_list *t)
+static char	parse_arg(t_l_list *t, char **ret_val)
 {
-	char	*val;
 	t_blist	*tok;
+	char	*tmp_val;
 
+	tmp_val = NULL;
 	skip_sep(t);
 	// loop args
 	
@@ -122,14 +131,15 @@ static char	*parse_arg(t_l_list *t)
 		if ((*(char *)tok->key == WORD || *(char *)tok->key == EXT_FIELD))
 		{
 			if (extend_arg(tok))
-				return (NULL);
+				return (-1);
 		}
-		val = ft_strdup(ll_take(t)->val);
+		tmp_val = ft_strdup(ll_take(t)->val);
 	}
 	else
-		return (NULL);
+		return (-2);
 	skip_sep(t);
-	return (val);
+	*ret_val = tmp_val;
+	return (0);
 }
 
 static t_node	*parse_pipe(t_l_list *t, t_node *cmd)

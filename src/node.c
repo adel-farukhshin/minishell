@@ -113,9 +113,12 @@ void print_node(t_node *node, int intend)
 	{
 		print_intends(intend);
 		arg = node->value.cmd_val.args;
-		printf("%s\n", (char *)arg->val);
+		if (arg && arg->val)
+			printf("%s\n", (char *)arg->val);
+		else
+			printf("cmd is null");
 		print_intends(intend + 2);
-		while (arg)
+		while (arg && arg->val)
 		{
 			printf("%s ", (char *)arg->val);
 			arg = arg->next;
