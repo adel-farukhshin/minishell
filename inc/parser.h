@@ -17,6 +17,16 @@ t_node *parse(t_l_list *token_list);
 
 /**
  * @brief 
+ * Joins all the values of list together. Return the joined string or null. Does not
+ * free list.
+ * 
+ * @param list 
+ * @return char* 
+ */
+char	*str_join(t_list *list);
+
+/**
+ * @brief 
  * Private function.
  * 
  * @return 0 - extension isn't needed; 1 - successful extension; -1 - error

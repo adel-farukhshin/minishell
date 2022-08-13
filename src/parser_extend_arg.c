@@ -5,6 +5,7 @@
 #include "minishell.h"
 #include "blists.h"
 #include "lists.h"
+#include "parser.h"
 
 /**
  * @brief 
@@ -29,14 +30,6 @@ static char	*env_var(char *s);
 // static char *get_env_var(char *s);
 // static void	update_counters(char *s, long *cur, long *start);
 
-/**
- * @brief 
- * Joins all the values of list together. Return the joined string or null.
- * 
- * @param list 
- * @return char* 
- */
-static char	*str_join(t_list *list);
 
 
 char extend_arg(t_blist *tok)
@@ -123,7 +116,7 @@ char extend_arg(t_blist *tok)
 	return (0);
 }
 
-static char	*str_join(t_list *list)
+char	*str_join(t_list *list)
 {
 	long	len;
 	t_list	*tmp;
