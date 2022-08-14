@@ -128,6 +128,7 @@ void print_node(t_node *node, int intend)
 	}
 	else
 	{
+		print_intends(intend);
 		printf("Pipe\n");
 		print_node(node->value.pipe_val.left, intend + 2);
 		print_node(node->value.pipe_val.right, intend + 2);
