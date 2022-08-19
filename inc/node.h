@@ -62,6 +62,15 @@ t_node *cmd_node_new(const char *cmd_name);
 char	cmd_add_arg(t_node *cmd, const char *arg);
 
 /**
+ * @brief Modifies the first element in args' list. Frees the previous value. New_name 
+ * must be pre-allocated.
+ * 
+ * @param cmd 
+ * @param new_name 
+ */
+void	cmd_change_cmdname(t_node *cmd, char *new_name);
+
+/**
  * @brief 
  * Adds redirection file name to command. The type of redirection is specified in the type.
  * Returns 0, if it was sucessful, and -1 if not. 

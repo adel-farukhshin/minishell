@@ -37,6 +37,15 @@ char	cmd_add_arg(t_node *cmd, const char *arg)
 	return (0);
 }
 
+void	cmd_change_cmdname(t_node *cmd, char *new_name)
+{
+	if (cmd->type == cmd_node)
+	{
+		free(cmd->value.cmd_val.args->val);
+		cmd->value.cmd_val.args->val = new_name;
+	}
+}
+
 char	cmd_add_redir(t_node *cmd, const char *redir, char type)
 {
 	t_list	*new_file;
