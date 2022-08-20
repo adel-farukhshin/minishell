@@ -127,7 +127,7 @@ char	*str_join(t_list *list)
 		return (NULL);
 	tmp = list;
 	len = 0;
-	while (list->next)
+	while (list)
 	{
 		len += ft_strlen((char *)list->val);
 		list = list->next;
