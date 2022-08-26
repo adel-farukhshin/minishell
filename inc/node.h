@@ -2,6 +2,7 @@
 # define NODE_H
 
 # include "lists.h"
+# include "blists.h"
 
 typedef enum e_node_type {
 	error_node = -1,
@@ -15,10 +16,7 @@ typedef const char *t_error_value;
 
 typedef struct s_cmd_value {
 	t_list	*args;
-	t_list	*r_out; // >
-	t_list	*r_in; // <
-	t_list	*r_app; // >>
-	t_list	*r_ins; // <<
+	t_blist	*redirs;
 } t_cmd_value;
 
 typedef struct s_pipe_value {
@@ -72,7 +70,8 @@ void	cmd_change_cmdname(t_node *cmd, char *new_name);
 
 /**
  * @brief 
- * Adds redirection file name to command. The type of redirection is specified in the type.
+ * Adds t_blist to the list of redirections. Key specifies type of redirection (allocates memory
+ * for it), value specifies the file name (it must be pre-allocated).
  * Returns 0, if it was sucessful, and -1 if not. 
  * 
  * @param cmd 
