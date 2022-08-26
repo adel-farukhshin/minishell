@@ -1,6 +1,9 @@
 #include "executor.h"
 #include "lists.h"
 
+#include <sys/types.h>
+#include <sys/wait.h>
+
 char	*find_path(char **envp)
 {
 	while (ft_strncmp("PATH", *envp, 4))

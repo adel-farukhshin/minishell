@@ -3,7 +3,8 @@
 
 #include "minishell.h"
 // For pwd command
-# include <sys/syslimits.h> // PATH_MAX
+// # include <sys/syslimits.h> // PATH_MAX
+# include <limits.h>
 # include <unistd.h>// getcwd получает путь и копирует его в строку 
 # include <stdio.h>
 
