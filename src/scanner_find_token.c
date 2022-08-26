@@ -53,6 +53,7 @@ t_token	*find_token(t_src *src)
 	char	*val;
 
 	tok = NULL;
+	val = NULL;
 	key = find_key(src->s[src->curpos]);
 	if (!key)
 		return (NULL);
@@ -62,8 +63,6 @@ t_token	*find_token(t_src *src)
 		if (!val)
 			return (NULL);
 	}
-	else if (key == 5)
-		val = NULL;
 	else if (key == 6 || key == 7)
 		redir_token(src, &key);
 	tok = create_token(key, val);
