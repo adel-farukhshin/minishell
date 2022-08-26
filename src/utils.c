@@ -73,3 +73,21 @@ char	*ft_strchr(const char *s, int c)
 		return (r);
 	return (NULL);
 }
+
+void	free_strs(char ***strings)
+{
+	int	i;
+	char	**strs;
+
+	i = 0;
+	strs = *strings;
+	while (strs[i])
+	{
+		free(strs[i]);
+		strs[i] = NULL;
+		i++;
+	}
+	free(strs[i]);
+	free(strs);
+	*strings = NULL;
+}

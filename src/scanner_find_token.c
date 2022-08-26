@@ -53,6 +53,7 @@ t_token	*find_token(t_src *src)
 	char	*val;
 
 	tok = NULL;
+	val = NULL;
 	key = find_key(src->s[src->curpos]);
 	if (!key)
 		return (NULL);
@@ -100,7 +101,7 @@ static char	*create_val(t_src *src, char key)
 	if (key == SEP || key == WORD)
 	{
 		while (find_key(src->s[src->curpos + len++]) == key);
-		len -= 1;
+		len -= 1;			
 	}
 	else
 	{

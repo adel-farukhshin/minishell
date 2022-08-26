@@ -21,7 +21,6 @@ static t_node	*parse_pipe(t_l_list *t, t_node *cmd);
 
 static void		skip_sep(t_l_list *t);
 
-
 t_node *parse(t_l_list *token_list)
 {
 	t_node	*node;
@@ -41,10 +40,12 @@ static t_node	*parse_cmd(t_l_list *t)
 		return (error_node_new("error in parsing argument"));
 	else
 		cmd = cmd_node_new(arg);
+	
 	// add args
 	tok = ll_peek(t);
-	while (ll_has_next(t) && *(char *)tok->key >= WORD && *(char *)tok->key <= EXT_FIELD)
+	while (ll_has_next(t) &&*(char *) tok->key >= WORD && *(char *) tok->key <= EXT_FIELD)
 	{
+		
 		if (parse_arg(t, &arg) == 0)
 		{
 			if (cmd_add_arg(cmd, arg))
@@ -85,10 +86,7 @@ static t_node	*parse_cmd(t_l_list *t)
 
 	// Check for full null command
 	if (!cmd->value.cmd_val.args->val &&
-		!cmd->value.cmd_val.r_out &&
-		!cmd->value.cmd_val.r_in &&
-		!cmd->value.cmd_val.r_app &&
-		!cmd->value.cmd_val.r_ins)
+		!cmd->value.cmd_val.redirs)
 		return (error_node_new("error in command syntax"));
 
 	// Parse pipe
@@ -97,7 +95,9 @@ static t_node	*parse_cmd(t_l_list *t)
 		ll_take(t);
 		cmd = parse_pipe(t, cmd);
 	}
+	
 	return (cmd);
+
 }
 
 void skip_sep(t_l_list *t)
