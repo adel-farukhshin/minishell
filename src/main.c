@@ -18,10 +18,14 @@ int	main()
 	t_token	*head;
 
 	// Create src
-	src.s = "cat test.c > greeks";
-	// src.s = "cat test.c greeks | greeks";
+	// src.s = " ";
+	// src.s = "ls";
+	// src.s = "ls file";
+	src.s = "ls | wc -l";
+	// src.s = "cat > h1 | cat -l";
+	// src.s = "cat > h1 >> h2 >h3 | cat -l";
 	// src.s = "\"a$?\" \"$$\"";
-	// src.s = "\"ads\"";
+	// src.s = "ec\"h\"o";
 	// src.s = " greeks \'field\' \"f \" \" a\" \" \"exp_field\" | > < >> << ";
 	src.curpos = 0;
 	src.len = ft_strlen(src.s);
@@ -38,6 +42,7 @@ int	main()
 	t_node *cmd;
 	cmd = parse(list);
 	print_node(cmd, 0);
+	ll_drop(list);
 
 	// Execution
 	// if (cmd->type == error_node)
