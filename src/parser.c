@@ -86,10 +86,7 @@ static t_node	*parse_cmd(t_l_list *t)
 
 	// Check for full null command
 	if (!cmd->value.cmd_val.args->val &&
-		!cmd->value.cmd_val.r_out &&
-		!cmd->value.cmd_val.r_in &&
-		!cmd->value.cmd_val.r_app &&
-		!cmd->value.cmd_val.r_ins)
+		!cmd->value.cmd_val.redirs)
 		return (error_node_new("error in command syntax"));
 
 	// Parse pipe

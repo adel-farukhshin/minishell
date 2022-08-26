@@ -135,7 +135,8 @@ TEST(parser, cmd_with_r_out) {
 	cmd = parse(tok_list);
 	ASSERT_EQ(cmd_node, cmd->type);
 	ASSERT_STREQ("cat", (char *)cmd->value.cmd_val.args->val);
-	ASSERT_STREQ("file", (char *)cmd->value.cmd_val.r_out->val);
+	ASSERT_EQ(6, *(char *)cmd->value.cmd_val.redirs->key);
+	ASSERT_STREQ("file", (char *)cmd->value.cmd_val.redirs->val);
 }
 
 TEST(parser, cmd_with_redirs) {
@@ -186,10 +187,18 @@ TEST(parser, cmd_with_redirs) {
 	cmd = parse(tok_list);
 	ASSERT_EQ(cmd_node, cmd->type);
 	ASSERT_STREQ("cat", (char *)cmd->value.cmd_val.args->val);
-	ASSERT_STREQ("file", (char *)cmd->value.cmd_val.r_out->val);
-	ASSERT_STREQ("file", (char *)cmd->value.cmd_val.r_in->val);
-	ASSERT_STREQ("file", (char *)cmd->value.cmd_val.r_app->val);
-	ASSERT_STREQ("file", (char *)cmd->value.cmd_val.r_ins->val);
+	t_blist *r = cmd->value.cmd_val.redirs;
+	ASSERT_EQ(6, *(char *)r->key);
+	ASSERT_STREQ("file", (char *)r->val);
+	r = r->next;
+	ASSERT_EQ(7, *(char *)r->key);
+	ASSERT_STREQ("file", (char *)r->val);
+	r = r->next;
+	ASSERT_EQ(8, *(char *)r->key);
+	ASSERT_STREQ("file", (char *)r->val);
+	r = r->next;
+	ASSERT_EQ(9,*(char *)r->key);
+	ASSERT_STREQ("file", (char *)r->val);
 }
 
 
@@ -212,7 +221,9 @@ TEST(parser, redir_out_without_cmdname_with_sep) {
 	t_node *cmd;
 	cmd = parse(tok_list);
 	ASSERT_EQ(cmd_node, cmd->type);
-	ASSERT_STREQ("file", (char *)cmd->value.cmd_val.r_out->val);
+	t_blist *r = cmd->value.cmd_val.redirs;
+	ASSERT_EQ(6, *(char *)r->key);
+	ASSERT_STREQ("file", (char *)r->val);
 }
 
 TEST(parser, redir_out_without_cmdname_without_sep) {
@@ -231,7 +242,9 @@ TEST(parser, redir_out_without_cmdname_without_sep) {
 	t_node *cmd;
 	cmd = parse(tok_list);
 	ASSERT_EQ(cmd_node, cmd->type);
-	ASSERT_STREQ("file", (char *)cmd->value.cmd_val.r_out->val);
+	t_blist *r = cmd->value.cmd_val.redirs;
+	ASSERT_EQ(6, *(char *)r->key);
+	ASSERT_STREQ("file", (char *)r->val);
 }
 
 TEST(parser, redir_out_without_cmdname_without_fname) {
@@ -268,7 +281,9 @@ TEST(parser, redir_in_without_cmdname_with_sep) {
 	t_node *cmd;
 	cmd = parse(tok_list);
 	ASSERT_EQ(cmd_node, cmd->type);
-	ASSERT_STREQ("file", (char *)cmd->value.cmd_val.r_in->val);
+	t_blist *r = cmd->value.cmd_val.redirs;
+	ASSERT_EQ(7, *(char *)r->key);
+	ASSERT_STREQ("file", (char *)r->val);
 }
 
 TEST(parser, redir_app_without_cmdname_with_sep) {
@@ -289,7 +304,9 @@ TEST(parser, redir_app_without_cmdname_with_sep) {
 	t_node *cmd;
 	cmd = parse(tok_list);
 	ASSERT_EQ(cmd_node, cmd->type);
-	ASSERT_STREQ("file", (char *)cmd->value.cmd_val.r_app->val);
+	t_blist *r = cmd->value.cmd_val.redirs;
+	ASSERT_EQ(8, *(char *)r->key);
+	ASSERT_STREQ("file", (char *)r->val);
 }
 
 TEST(parser, redir_ins_without_cmdname_with_sep) {
@@ -310,7 +327,9 @@ TEST(parser, redir_ins_without_cmdname_with_sep) {
 	t_node *cmd;
 	cmd = parse(tok_list);
 	ASSERT_EQ(cmd_node, cmd->type);
-	ASSERT_STREQ("file", (char *)cmd->value.cmd_val.r_ins->val);
+	t_blist *r = cmd->value.cmd_val.redirs;
+	ASSERT_EQ(9, *(char *)r->key);
+	ASSERT_STREQ("file", (char *)r->val);
 }
 
 
@@ -372,7 +391,9 @@ TEST(parser, pipe_wit_cmd_with_redir_0) {
 	t_node *cmd;
 	cmd = pipe->value.pipe_val.left;
 	ASSERT_STREQ("cat", (char *)cmd->value.cmd_val.args->val);
-	ASSERT_STREQ("file", (char *)cmd->value.cmd_val.r_in->val);
+	t_blist *r = cmd->value.cmd_val.redirs;
+	ASSERT_EQ(7, *(char *)r->key);
+	ASSERT_STREQ("file", (char *)r->val);
 	cmd = pipe->value.pipe_val.right;
 	ASSERT_STREQ("grep", (char *)cmd->value.cmd_val.args->val);
 }
@@ -414,7 +435,9 @@ TEST(parser, pipe_with_cmd_with_redir_1)
 	ASSERT_STREQ("cat", (char *)cmd->value.cmd_val.args->val);
 	cmd = pipe->value.pipe_val.right;
 	ASSERT_STREQ("grep", (char *)cmd->value.cmd_val.args->val);
-	ASSERT_STREQ("file", (char *)cmd->value.cmd_val.r_in->val);
+	t_blist *r = cmd->value.cmd_val.redirs;
+	ASSERT_EQ(7, *(char *)r->key);
+	ASSERT_STREQ("file", (char *)r->val);
 }
 
 // redir in both cmds
@@ -460,11 +483,15 @@ TEST(parser, pipe_with_cmd_with_redir_2)
 	t_node *cmd;
 	cmd = pipe->value.pipe_val.left;
 	ASSERT_STREQ("cat", (char *)cmd->value.cmd_val.args->val);
-	ASSERT_STREQ("file", (char *)cmd->value.cmd_val.r_in->val);
+	t_blist *r = cmd->value.cmd_val.redirs;
+	ASSERT_EQ(7, *(char *)r->key);
+	ASSERT_STREQ("file", (char *)r->val);
 
 	cmd = pipe->value.pipe_val.right;
 	ASSERT_STREQ("grep", (char *)cmd->value.cmd_val.args->val);
-	ASSERT_STREQ("file", (char *)cmd->value.cmd_val.r_in->val);
+	r = cmd->value.cmd_val.redirs;
+	ASSERT_EQ(7, *(char *)r->key);
+	ASSERT_STREQ("file", (char *)r->val);
 }
 
 TEST(parser, cmd_full_null) {
@@ -506,9 +533,18 @@ TEST(parser, pipe_without_cmd_with_redir) {
 	tl = tl->next;
 	ASSERT_STREQ("greeks", (char *)tl->val);
 
+	t_node *pipe;
+	pipe = parse(tok_list);
+	ASSERT_EQ(pipe_node, pipe->type);
+
 	t_node *cmd;
-	cmd = parse(tok_list);
-	ASSERT_EQ(pipe_node, cmd->type);
+	cmd = pipe->value.pipe_val.left;
+	ASSERT_STREQ("cat", (char *)cmd->value.cmd_val.args->val);
+
+	cmd = pipe->value.pipe_val.right;
+	t_blist *r = cmd->value.cmd_val.redirs;
+	ASSERT_EQ(6, *(char *)r->key);
+	ASSERT_STREQ("greeks", (char *)r->val);
 	// check redir
 }
 
