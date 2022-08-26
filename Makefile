@@ -45,6 +45,9 @@ ${executable}: ${objects} | ${bin_dir}
 ${obj_dir}/%.o: ${src_dir}/%.c | ${obj_dir}
 	${CC} ${CFLAGS} -c -o ${@} ${<}
 
+valgrind: ${executable}
+	valgrind ${executable}
+
 ${build_dirs}:
 	mkdir -p ${@}
 
