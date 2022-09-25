@@ -8,7 +8,7 @@
 #include "executor.h"
 #include "clean.h"
 
-t_node	*parse_str_function(char	*str)
+t_node	*parse_str_function(char *str, t_shell *sh)
 {
 	t_src	src;
 	t_token	*head;
@@ -22,7 +22,7 @@ t_node	*parse_str_function(char	*str)
 	if (!head)
 		printf("error\n");
 	list= ll_new((t_blist *)head);
-	cmd = parse(list);
+	cmd = parse(list, sh);
 	free(src.s);
 	ll_drop(list);
 	// print_node(cmd, 0);
@@ -55,7 +55,7 @@ int	main(int argc, char **argv, char **envp)
 			exit(0);
 		}
 		add_history(str);
-		cmd = parse_str_function(str);
+		cmd = parse_str_function(str, &shell);
 		free(str);
 		executor(cmd, &shell);
 		node_drop(cmd);

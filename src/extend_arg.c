@@ -31,7 +31,7 @@ static char	*env_var(char *s);
 
 
 
-char extend_arg(t_blist *tok)
+char extend_arg(t_blist *tok, t_shell *sh)
 {
 	char	*s;
 	char	*start;
@@ -73,12 +73,12 @@ char extend_arg(t_blist *tok)
 			if (c == 1) // pid
 			{
 				// atoi
-				start = ft_strdup("4242");
+				start = ft_itoa(sh->pid);
 			}
 			else if (c == 2) // ecode
 			{
 				// atoi
-				start = ft_strdup("77");
+				start = ft_itoa(sh->exit_status);
 			}
 			else // arg
 			{

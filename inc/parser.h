@@ -14,7 +14,7 @@
  * @param t 
  * @return t_node* 
  */
-t_node *parse(t_l_list *token_list);
+t_node *parse(t_l_list *token_list, t_shell *sh);
 
 /**
  * @brief 
@@ -32,7 +32,7 @@ char	*str_join(t_list *list);
  * 
  * @return 0 - extension isn't needed; 1 - successful extension; -1 - error
  */
-char extend_arg(t_blist *tok);
+char extend_arg(t_blist *tok, t_shell *sh);
 
 
 #endif

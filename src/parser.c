@@ -14,29 +14,29 @@
 // ARG		::= WORD | FIELD | EXT_FIELD
 // PIPE		::= CMD + CMD
 
-static t_node	*parse_cmd(t_l_list *t);
+static t_node	*parse_cmd(t_l_list *t, t_shell *sh);
 // @return: 0 - success; -1 error; -2 - arg was not found
-static char		parse_arg(t_l_list *t, char **ret_val);
-static t_node	*parse_pipe(t_l_list *t, t_node *cmd);
+static char		parse_arg(t_l_list *t, char **ret_val, t_shell *sh);
+static t_node	*parse_pipe(t_l_list *t, t_node *cmd, t_shell *sh);
 
 static void		skip_sep(t_l_list *t);
 
-t_node *parse(t_l_list *token_list)
+t_node *parse(t_l_list *token_list, t_shell *sh)
 {
 	t_node	*node;
 
-	node = parse_cmd(token_list);
+	node = parse_cmd(token_list, sh);
 	return (node);
 }
 
-static t_node	*parse_cmd(t_l_list *t)
+static t_node	*parse_cmd(t_l_list *t, t_shell *sh)
 {
 	t_node	*cmd;
 	char	*arg;
 	t_blist	*tok;
 
 	arg = NULL;
-	if (parse_arg(t, &arg) == -1)
+	if (parse_arg(t, &arg, sh) == -1)
 		return (error_node_new("error in parsing argument"));
 	else
 		cmd = cmd_node_new(arg);
@@ -46,7 +46,7 @@ static t_node	*parse_cmd(t_l_list *t)
 	while (ll_has_next(t) &&*(char *) tok->key >= WORD && *(char *) tok->key <= EXT_FIELD)
 	{
 		
-		if (parse_arg(t, &arg) == 0)
+		if (parse_arg(t, &arg, sh) == 0)
 		{
 			if (cmd_add_arg(cmd, arg))
 			{
@@ -68,7 +68,7 @@ static t_node	*parse_cmd(t_l_list *t)
 	{
 		key = *(char *)tok->key;
 		tok = ll_take(t);
-		if (parse_arg(t, &arg) == 0)
+		if (parse_arg(t, &arg, sh) == 0)
 		{
 			if (cmd_add_redir(cmd, arg, key))
 			{
@@ -93,7 +93,7 @@ static t_node	*parse_cmd(t_l_list *t)
 	if (ll_has_next(t) && *(char *)tok->key == PIPE)
 	{
 		ll_take(t);
-		cmd = parse_pipe(t, cmd);
+		cmd = parse_pipe(t, cmd, sh);
 	}
 	
 	return (cmd);
@@ -109,7 +109,7 @@ void skip_sep(t_l_list *t)
 		ll_take(t);
 }
 
-static char	parse_arg(t_l_list *t, char **ret_val)
+static char	parse_arg(t_l_list *t, char **ret_val, t_shell *sh)
 {
 	t_list	*val_list;
 	t_list	*n;
@@ -129,7 +129,7 @@ static char	parse_arg(t_l_list *t, char **ret_val)
 		// extend
 		if ((*(char *)tok->key == WORD || *(char *)tok->key == EXT_FIELD))
 		{
-			if (extend_arg(tok))
+			if (extend_arg(tok, sh))
 				return (-1);
 		}
 		tok = ll_take(t);
@@ -154,12 +154,12 @@ static char	parse_arg(t_l_list *t, char **ret_val)
 	return (0);
 }
 
-static t_node	*parse_pipe(t_l_list *t, t_node *cmd)
+static t_node	*parse_pipe(t_l_list *t, t_node *cmd, t_shell *sh)
 {
 	t_node	*pipe;
 	t_node	*next_cmd;
 
-	next_cmd = parse_cmd(t);
+	next_cmd = parse_cmd(t, sh);
 	if (next_cmd->type == error_node)
 	{
 		node_drop(cmd);
