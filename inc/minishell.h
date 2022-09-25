@@ -22,6 +22,7 @@ typedef struct s_context
 typedef struct s_shell
 {
     int exit_status;
+    int pid;
     t_blist *envs;
     t_blist *export;
     char    **env_arr;

@@ -40,6 +40,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_memset(&cmd, 0, sizeof(cmd));
 	ft_memset(&shell, 0, sizeof(shell));
 	shell.exit_status = 0;
+	shell.pid = getpid();
 	env_parsing(envp, &shell.envs);
 	env_to_arr(envp, &shell);
 	signals_start();
