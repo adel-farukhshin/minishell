@@ -25,8 +25,8 @@ dirs					:= ${inc_dir} ${src_dir} ${support_dir} ${test_dir} \
 
 all_unit_tests			:= ${unit_test_build_dir}/all_tests
 
-CC						:= gcc
-CFLAGS					:= -I${inc_dir} -Ireadline -g -Wall -Wextra -Werror -O0
+CC						:= gcc 
+CFLAGS					:= -I${inc_dir} -g -Wall -Wextra -Werror  -O0 
 
 .PHONY: all  clean fclean re 
 .PHONY: run test utest integration-test debug leak-check
@@ -46,9 +46,6 @@ ${executable}: ${objects} | ${bin_dir}
 
 ${obj_dir}/%.o: ${src_dir}/%.c | ${obj_dir}
 	${CC} ${CFLAGS} -c -o ${@} ${<}
-
-valgrind: ${executable}
-	valgrind ${executable}
 
 ${build_dirs}:
 	mkdir -p ${@}

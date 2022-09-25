@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 #include <stdlib.h>
 #include <unistd.h>
 #include "node.h"
@@ -158,7 +159,6 @@ void	print_redirs(t_node *node, int intend)
 	}
 	printf("\n");
 }
-
 
 // int	main()
 // {

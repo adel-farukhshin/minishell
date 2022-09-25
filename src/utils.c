@@ -37,57 +37,39 @@ int	ft_isspace(char c)
 // 	return (a);
 // }
 
-char	*ft_strdup(const char *s1)
-{
-	char	*ret;
-	char	*tmp;
-	int		i;
+// char	*ft_strdup(const char *s1)
+// {
+// 	char	*ret;
+// 	char	*tmp;
+// 	int		i;
 
-	i = 0;
-	ret = malloc(ft_strlen(s1) + 1);
-	if (!ret)
-		return (NULL);
-	tmp = (char *) s1;
-	while (*tmp)
-		ret[i++] = *tmp++;
-	ret[i] = '\0';
-	return (ret);
-}
+// 	i = 0;
+// 	ret = malloc(ft_strlen(s1) + 1);
+// 	if (!ret)
+// 		return (NULL);
+// 	tmp = (char *) s1;
+// 	while (*tmp)
+// 		ret[i++] = *tmp++;
+// 	ret[i] = '\0';
+// 	return (ret);
+// }
 
-char	*ft_strchr(const char *s, int c)
-{
-	char	a;
-	char	*r;
+// char	*ft_strchr(const char *s, int c)
+// {
+// 	char	a;
+// 	char	*r;
 
-	a = (char) c;
-	r = (char *) s;
-	while (*r)
-	{
-		if (*r == a)
-		{
-			return (r);
-		}
-		r++;
-	}
-	if (a == '\0')
-		return (r);
-	return (NULL);
-}
-
-void	free_strs(char ***strings)
-{
-	int	i;
-	char	**strs;
-
-	i = 0;
-	strs = *strings;
-	while (strs[i])
-	{
-		free(strs[i]);
-		strs[i] = NULL;
-		i++;
-	}
-	free(strs[i]);
-	free(strs);
-	*strings = NULL;
-}
+// 	a = (char) c;
+// 	r = (char *) s;
+// 	while (*r)
+// 	{
+// 		if (*r == a)
+// 		{
+// 			return (r);
+// 		}
+// 		r++;
+// 	}
+// 	if (a == '\0')
+// 		return (r);
+// 	return (NULL);
+// }

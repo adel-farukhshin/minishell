@@ -44,20 +44,20 @@ void	blst_clear(t_blist **blst, void (*kdel)(void *),
 	}
 }
 
-void	blst_add_back(t_blist **blst, t_blist *n)
+void	blst_add_back(t_blist **blst, t_blist *new)
 {
 	while (*blst)
 		blst = &((*blst)->next);
-	*blst = n;
+	*blst = new;
 }
 
-void	blst_add_front(t_blist **blst, t_blist *n)
+void	blst_add_front(t_blist **blst, t_blist *new)
 {
 	if (!*blst)
-		n->next = NULL;
+		new->next = NULL;
 	else
-		n->next = *blst;
-	*blst = n;
+		new->next = *blst;
+	*blst = new;
 }
 
 // #include <stdio.h>
