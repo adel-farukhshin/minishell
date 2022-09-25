@@ -1,11 +1,8 @@
-
 #include <stdlib.h>
 #include <unistd.h>
-
+#include <stdio.h>
 #include "scanner.h"
 #include "minishell.h"
-
-#include <stdio.h>
 
 void		free_token_list(t_token *head);
 
@@ -55,7 +52,7 @@ void	free_token_list(t_token *head)
 t_token	*create_token(char key, char *val)
 {
 	t_token	*tok;
-		
+
 	tok = malloc(sizeof(t_token));
 	if (!tok)
 		return (NULL);
@@ -71,25 +68,6 @@ t_token	*create_token(char key, char *val)
 	tok->val = val;
 	return (tok);
 }
-
-// static int	data_cpy(t_token *tok, char key, char *val, long l)
-// {
-// 	*(char *)tok->key = key;
-// 	if (key >= 2 && key <= 4)
-// 	{	
-// 		tok->val = malloc(sizeof(char) * l + 1);
-// 		if (!tok->val)
-// 		{
-// 			free_token(tok, 1);
-// 			return (-1);
-// 		}
-// 		if (key == 2)
-// 			ft_strncpy(tok->val, val, l);
-// 		else
-// 			ft_strncpy(tok->val, val + 1, l - 2);
-// 	}
-// 	return (0);
-// }
 
 void	free_token(t_token *tok, char m)
 {
