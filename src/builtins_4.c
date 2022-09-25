@@ -1,6 +1,6 @@
 #include "builtins.h"
 
-void	error_message_unset(t_shell    *shell, char *str)
+void	error_message_unset(t_shell	*shell, char *str)
 {
 	// ft_print_shell(NULL, SHELL);
 	ft_putstr_fd(": unset: \'", 2);
@@ -9,7 +9,7 @@ void	error_message_unset(t_shell    *shell, char *str)
 	shell->exit_status = 1;
 }
 
-void	check_arguments_unset(t_shell    *shell, char **cmd_args)
+void	check_arguments_unset(t_shell	*shell, char **cmd_args)
 {
 	int	i[2];
 

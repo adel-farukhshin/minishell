@@ -20,7 +20,7 @@ void	ft_search_oldpwd(char **oldpwd, t_blist *envs)
 		*oldpwd = ft_strdup(tmp1);
 	}
 	if (*oldpwd == NULL)
-        printf("ERROR!"); // TODO
+		printf("ERROR!"); // TODO
 }
 
 void	ft_print_shell(char *str, char *shell)
@@ -119,7 +119,7 @@ void	ft_cd_oldpwd(t_blist *tmp, int flag, t_blist *envs, char *oldpwd)
 		new = blst_new(key, value);
 		if (!new)
 			printf("ERROR!"); // TODO
-		blst_add_back(&envs, new); // checking
+		blst_add_back(&envs, new);
 	}
 }
 
@@ -152,7 +152,7 @@ void	ft_added_pwd_oldpwd(char *oldpwd, t_blist *envs)
 		ft_cd_oldpwd(NULL, 2, envs, oldpwd);
 }
 
-void	cd_cmd(t_shell   *shell, char **cmd_args)
+void	cd_cmd(t_shell	*shell, char	**cmd_args)
 {
 	int		mistake;
 	char	*oldpwd;

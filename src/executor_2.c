@@ -43,7 +43,7 @@ void	exec_simple_cmd(t_node	*cmd, t_shell	*shell)
 	if (errno != 0)
 	{
 		// ft_putstr_fd()
-		// perror("exe_cmd"); // ft_putstr_fd();
+		perror("exe_cmd"); // ft_putstr_fd();
 		if (shell->exit_status == -1)
 			shell->exit_status = 127;
 		exit(shell->exit_status);

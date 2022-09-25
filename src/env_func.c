@@ -1,35 +1,34 @@
 #include "minishell.h"
 
- t_blist *create_envs_list(char   *envp)
+ t_blist	*create_envs_list(char	*envp)
 {
-    int i;
-    int j;
-    t_blist *tmp;
+	int		i;
+	int		j;
+	t_blist	*tmp;
 
-    i = 0;
-    tmp = malloc(sizeof(t_blist));
-    if (!tmp)
-        printf("Malloc error");
-    while(envp[i] != '=')
-        i++;
-    tmp->key = ft_substr(envp, 0, i);
-    if (!tmp->key)
-        printf("Error1");
-    j = i + 1;
-    while(envp[j] != '\0' && envp[j] != '\n')
-        j++;
-    tmp->val = ft_substr(envp, i + 1, j - i);
-    if (!tmp->val)
-        printf("Error");
-    // tmp->num = 0;
-    tmp->next = NULL;
-    return (tmp);
+	i = 0;
+	tmp = malloc(sizeof(t_blist));
+	if (!tmp)
+    	printf("Malloc error");
+	while (envp[i] != '=')
+		i++;
+	tmp->key = ft_substr(envp, 0, i);
+	if (!tmp->key)
+		printf("Error1");
+	j = i + 1;
+	while (envp[j] != '\0' && envp[j] != '\n')
+		j++;
+	tmp->val = ft_substr(envp, i + 1, j - i);
+	if (!tmp->val)
+		printf("Error");
+	tmp->next = NULL;
+	return (tmp);
 }
 
-void    parse_env_list(t_blist   **envs, char *envp)
+void	parse_env_list(t_blist	**envs, char	*envp)
 {
-     t_blist *tmp;
-    
+	t_blist	*tmp;
+
 	if (!(*envs))
 	{
 		*envs = create_envs_list(envp);
@@ -92,18 +91,17 @@ char	*search_envs(t_blist **envs, char *key)
 	return (0);
 }
 
-
-void    env_parsing(char   **envp,  t_blist  **envs)
+void	env_parsing(char	**envp,  t_blist  **envs)
 {
-    int i;
-    char	*number;
+	int		i;
+	char	*number;
 	char	*temp;
 	char	*temp2;
 
-    i = -1;
-    while(envp[++i])
-        parse_env_list(envs, envp[i]);
-    if (search_envs(envs, "SHLVL"))
+	i = -1;
+	while (envp[++i])
+		parse_env_list(envs, envp[i]);
+	if (search_envs(envs, "SHLVL"))
 	{
 		number = ft_strdup(search_envs(envs, "SHLVL"));
 		remove_envs(envs, "SHLVL");
@@ -120,25 +118,25 @@ void    env_parsing(char   **envp,  t_blist  **envs)
 	}
 }
 
-void    env_to_arr(char **envp, t_shell *shell)
+void	env_to_arr(char **envp, t_shell *shell)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    if (!envp)
-        return ;
-    while (envp[i])
-        i++;
-    shell->env_arr = malloc(sizeof(char *) * (i + 1));
-    if (!shell->env_arr)
-        return ;
-    i = 0;
-    while (envp[i])
-    {
-        shell->env_arr[i] = ft_strdup(envp[i]);
-        if (!shell->env_arr[i])
-            return ;
-        i++;
-    }
-    shell->env_arr[i] = NULL;
+	i = 0;
+	if (!envp)
+		return ;
+	while (envp[i])
+		i++;
+	shell->env_arr = malloc(sizeof(char *) * (i + 1));
+	if (!shell->env_arr)
+		return ;
+	i = 0;
+	while (envp[i])
+	{
+		shell->env_arr[i] = ft_strdup(envp[i]);
+		if (!shell->env_arr[i])
+			return ;
+		i++;
+	}
+	shell->env_arr[i] = NULL;
 }
