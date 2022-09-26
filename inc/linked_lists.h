@@ -1,17 +1,18 @@
 #ifndef LINKED_LISTS_H
 # define LINKED_LISTS_H
 
-#include <stdbool.h>
-#include "blists.h"
+# include <stdbool.h>
+# include "blists.h"
 
 typedef struct s_l_list {
 	t_blist	*head;
 	t_blist	*next;
-} t_l_list;
+}	t_l_list;
 
 /**
  * @brief 
- * A linked_list constructor. Head must not be null. Creates linked_list, next points to the head.
+ * A linked_list constructor. Head must not be null. 
+ * Creates linked_list, next points to the head.
  * Returns linked_list or null (if unsuccessful)
  * 
  * @param head 
@@ -19,7 +20,7 @@ typedef struct s_l_list {
  * @return t_l_list* 
  * @return null
  */
-t_l_list *ll_new(t_blist *head);
+t_l_list	*ll_new(t_blist *head);
 
 /**
  * @brief 
@@ -29,7 +30,7 @@ t_l_list *ll_new(t_blist *head);
  * @return true 
  * @return false 
  */
-bool ll_has_next(t_l_list *list);
+bool		ll_has_next(t_l_list *list);
 
 /**
  * @brief 
@@ -38,7 +39,7 @@ bool ll_has_next(t_l_list *list);
  * @param list 
  * @return t_blist* 
  */
-t_blist	*ll_peek(t_l_list *list);
+t_blist		*ll_peek(t_l_list *list);
 
 /**
  * @brief 
@@ -47,7 +48,7 @@ t_blist	*ll_peek(t_l_list *list);
  * @param list 
  * @return t_blist* 
  */
-t_blist	*ll_take(t_l_list *list);
+t_blist		*ll_take(t_l_list *list);
 
 /**
  * @brief 
@@ -56,7 +57,7 @@ t_blist	*ll_take(t_l_list *list);
  * 
  * @param node 
  */
-void	ll_change_value(t_blist *node, void *new_val);
+void		ll_change_value(t_blist *node, void *new_val);
 
 /**
  * @brief 
@@ -65,6 +66,6 @@ void	ll_change_value(t_blist *node, void *new_val);
  * @param list 
  * @return void* 
  */
-void	*ll_drop(t_l_list *list);
+void		*ll_drop(t_l_list *list);
 
 #endif
