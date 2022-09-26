@@ -6,7 +6,7 @@
 /*   By: mdaryn <mdaryn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 17:43:18 by mdaryn            #+#    #+#             */
-/*   Updated: 2022/09/26 15:19:39 by mdaryn           ###   ########.fr       */
+/*   Updated: 2022/09/26 19:04:59 by mdaryn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int	execute_cmd(t_node	*cmd, t_context	*ctx, t_shell	*shell)
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		make_redir(cmd, ctx);
 		dup2(ctx->fd[STDIN_FILENO], STDIN_FILENO);
 		dup2(ctx->fd[STDOUT_FILENO], STDOUT_FILENO);
