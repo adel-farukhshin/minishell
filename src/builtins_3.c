@@ -27,12 +27,12 @@ void	exit_cmd(t_shell *shell, char **cmd_args)
 		exit(shell->exit_status);
 	else if (cmd_args[2] != NULL && !ft_is_number(cmd_args[1]))
 	{
-		// ft_print_shell("exit\n", SHELL);
+		print_shell("exit\n", SHELL);
 		ft_putstr_fd(": exit: too many arguments\n", 2);
 	}
 	else if (ft_is_number(cmd_args[1]))
 	{
-		// ft_print_shell("exit\n", SHELL);
+		print_shell("exit\n", SHELL);
 		ft_putstr_fd(": exit: ", 2);
 		ft_putstr_fd(cmd_args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);

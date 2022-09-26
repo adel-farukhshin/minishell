@@ -1,6 +1,5 @@
 #include "executor.h"
 
-
 void	read_redirect(char *file_name, t_context *ctx)
 {
 	int	fd_in;
@@ -8,7 +7,7 @@ void	read_redirect(char *file_name, t_context *ctx)
 	fd_in = open(file_name, O_RDONLY);
 	if (fd_in < 0)
 	{
-		ft_putstr_fd("no such file or directory: ", 2);
+		ft_putstr_fd("minishell: No such file or directory: ", 2);
 		ft_putstr_fd(file_name, 2);
 		ft_putstr_fd("\n", 2);
 		exit(1);

@@ -34,7 +34,7 @@ char	*reading_helper(char *stop_word)
 	return (result);
 }
 
-char	*read_heredoc(char *stop_word, int counter)
+char	*read_heredoc(char *stop_word, int counter, t_shell	*shell)
 {
 	char	*result;
 	int		file;
@@ -43,14 +43,20 @@ char	*read_heredoc(char *stop_word, int counter)
 	filename = make_file_name(counter);
 	file = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (file < 0)
-		printf("Error!!!");
+		perror_file(shell, filename);
 	result = reading_helper(stop_word);
 	write(file, result, ft_strlen(result));
 	free(result);
 	return (filename);
 }
 
-void	checking_heredoc(t_node	*cmd)
+void	checking_heredoc_helper(t_node	*cmd, t_shell	*shell)
+{
+	checking_heredoc(cmd->value.pipe_val.left, shell);
+	checking_heredoc(cmd->value.pipe_val.right, shell);
+}
+
+void	checking_heredoc(t_node	*cmd, t_shell *shell)
 {
 	t_blist		*redir_list;
 	static int	counter;
@@ -65,7 +71,7 @@ void	checking_heredoc(t_node	*cmd)
 		{
 			if (*(char *)redir_list->key == R_INS)
 			{
-				new_filename = read_heredoc(redir_list->val, counter);
+				new_filename = read_heredoc(redir_list->val, counter, shell);
 				free(redir_list->val);
 				redir_list->val = (void *)new_filename;
 				counter++;
@@ -74,8 +80,5 @@ void	checking_heredoc(t_node	*cmd)
 		}
 	}
 	else
-	{
-		checking_heredoc(cmd->value.pipe_val.left);
-		checking_heredoc(cmd->value.pipe_val.right);
-	}
+		checking_heredoc_helper(cmd, shell);
 }

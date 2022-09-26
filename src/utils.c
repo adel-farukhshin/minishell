@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include "minishell.h"
 
@@ -23,53 +22,3 @@ int	ft_isspace(char c)
 		return (1);
 	return (0);
 }
-
-// long	ft_strlen(const char *s)
-// {
-// 	long	a;
-
-// 	a = 0;
-// 	while (*s)
-// 	{
-// 		a++;
-// 		s++;
-// 	}
-// 	return (a);
-// }
-
-// char	*ft_strdup(const char *s1)
-// {
-// 	char	*ret;
-// 	char	*tmp;
-// 	int		i;
-
-// 	i = 0;
-// 	ret = malloc(ft_strlen(s1) + 1);
-// 	if (!ret)
-// 		return (NULL);
-// 	tmp = (char *) s1;
-// 	while (*tmp)
-// 		ret[i++] = *tmp++;
-// 	ret[i] = '\0';
-// 	return (ret);
-// }
-
-// char	*ft_strchr(const char *s, int c)
-// {
-// 	char	a;
-// 	char	*r;
-
-// 	a = (char) c;
-// 	r = (char *) s;
-// 	while (*r)
-// 	{
-// 		if (*r == a)
-// 		{
-// 			return (r);
-// 		}
-// 		r++;
-// 	}
-// 	if (a == '\0')
-// 		return (r);
-// 	return (NULL);
-// }

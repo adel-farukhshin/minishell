@@ -18,7 +18,7 @@ void	start_buitins_parent(t_node	*cmd, t_shell	*shell, int builtin_num)
 		if (builtin_num == BUILTIN_EXPORT)
 			export_cmd(shell, cmd_args);
 		if (builtin_num == BUILTIN_UNSET)
-			unset_cmd(shell, shell->envs, cmd_args);
+			unset_cmd(shell, &shell->envs, cmd_args);
 		if (builtin_num == BUILTIN_ECHO)
 			echo_cmd(shell, cmd_args);
 		if (builtin_num == BUILTIN_PWD)
@@ -27,6 +27,31 @@ void	start_buitins_parent(t_node	*cmd, t_shell	*shell, int builtin_num)
 			env_cmd(shell);
 	}
 	clean_array(cmd_args);
+}
+
+void	start_buitins_child_helper(char	**cmd_args, \
+	t_shell	*shell, int builtin_num)
+{
+	if (builtin_num == BUILTIN_UNSET)
+	{
+		unset_cmd(shell, &shell->envs, cmd_args);
+		exit(0);
+	}
+	if (builtin_num == BUILTIN_ECHO)
+	{
+		echo_cmd(shell, cmd_args);
+		exit(0);
+	}
+	if (builtin_num == BUILTIN_PWD)
+	{
+		pwd_cmd(shell);
+		exit(0);
+	}
+	if (builtin_num == BUILTIN_ENV)
+	{
+		env_cmd(shell);
+		exit(0);
+	}
 }
 
 void	start_buitins_child(t_node	*cmd, t_shell	*shell, int builtin_num)
@@ -52,26 +77,7 @@ void	start_buitins_child(t_node	*cmd, t_shell	*shell, int builtin_num)
 			export_cmd(shell, cmd_args);
 			exit(0);
 		}
-		if (builtin_num == BUILTIN_UNSET)
-		{
-			unset_cmd(shell, shell->envs, cmd_args);
-			exit(0);
-		}
-		if (builtin_num == BUILTIN_ECHO)
-		{
-			echo_cmd(shell, cmd_args);
-			exit(0);
-		}
-		if (builtin_num == BUILTIN_PWD)
-		{
-			pwd_cmd(shell);
-			exit(0);
-		}
-		if (builtin_num == BUILTIN_ENV)
-		{
-			env_cmd(shell);
-			exit(0);
-		}
+		start_buitins_child_helper(cmd_args, shell, builtin_num);
 	}
 	clean_array(cmd_args);
 }
@@ -83,7 +89,7 @@ int	check_builtins(t_node *cmd)
 	cmd_str = (char *)cmd->value.cmd_val.args->val;
 	if (cmd_str != NULL)
 	{
-		if (!ft_strncmp(cmd_str, "cd", 2 ) || \
+		if (!ft_strncmp(cmd_str, "cd", 2) || \
 		!ft_strncmp(cmd_str, "CD", 2))
 			return (BUILTIN_CD);
 		if (!ft_strncmp(cmd_str, "exit", 4) || !ft_strncmp(cmd_str, "EXIT", 4))

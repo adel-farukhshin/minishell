@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdaryn <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mdaryn <mdaryn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 16:06:31 by mdaryn            #+#    #+#             */
-/*   Updated: 2021/10/26 16:06:33 by mdaryn           ###   ########.fr       */
+/*   Updated: 2022/09/25 19:36:38 by mdaryn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,6 @@ int	ft_strlen(const char *str)
 	}
 	return (i);
 }
-
-// char	*ft_strchr(const char *s, int c)
-// {
-// 	unsigned char	*str;
-
-// 	if (!s)
-// 		return (NULL);
-// 	str = (unsigned char *)s;
-// 	while (*str != (unsigned char)c)
-// 	{
-// 		if (*str == '\0')
-// 		{
-// 			return (0);
-// 		}
-// 		str++;
-// 	}
-// 	return ((char *)str);
-// }
 
 char	*ft_new_strjoin(char *s1, char *s2)
 {

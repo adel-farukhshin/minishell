@@ -44,14 +44,14 @@ void	exe_one_builtin(t_node *cmd, t_context	*ctx, \
 
 	if (!save_fd(fd))
 	{
-		printf("ERROR!");
+		exit(1);
 	}
 	make_redir(cmd, ctx);
 	start_buitins_parent(cmd, shell, builtin_num);
 	if (!restore_fd(fd))
 	{
 		delete_saved_fd(fd);
-		printf("ERROR!");
+		exit(1);
 	}
 	delete_saved_fd(fd);
 }

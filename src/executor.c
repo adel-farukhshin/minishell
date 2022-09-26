@@ -6,7 +6,7 @@
 /*   By: mdaryn <mdaryn@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/25 17:43:18 by mdaryn            #+#    #+#             */
-/*   Updated: 2022/09/25 18:14:37 by mdaryn           ###   ########.fr       */
+/*   Updated: 2022/09/26 15:19:39 by mdaryn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,9 @@ int	executor(t_node *cmd, t_shell	*shell)
 	ctx.fd[0] = STDIN_FILENO;
 	ctx.fd[1] = STDOUT_FILENO;
 	ctx.fd_close = -1;
-	checking_heredoc(cmd);
+	checking_heredoc(cmd, shell);
 	if (cmd->type == cmd_node)
-	{
 		exec_one_cmd(cmd, &ctx, shell);
-	}
 	else
 	{
 		children = exec_node(cmd, &ctx, shell);

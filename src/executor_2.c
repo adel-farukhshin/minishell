@@ -26,6 +26,21 @@ char	*get_cmd(char **paths, char *cmd)
 	return (NULL);
 }
 
+int	perror_cmd(t_shell *shell, char *cmd)
+{
+	char	*s1;
+	char	*s2;
+
+	s1 = ft_strjoin("minishell", ": ");
+	s2 = ft_strjoin(s1, cmd);
+	free(s1);
+	ft_putstr_fd(s2, 2);
+	free(s2);
+	ft_putstr_fd(": command not found\n", 2);
+	shell->exit_status = CMD_NOT_FOUND;
+	return (shell->exit_status);
+}
+
 void	exec_simple_cmd(t_node	*cmd, t_shell	*shell)
 {
 	char	*path_str;
@@ -42,10 +57,8 @@ void	exec_simple_cmd(t_node	*cmd, t_shell	*shell)
 	shell->exit_status = execve(exe_cmd, cmd_args, shell->env_arr);
 	if (errno != 0)
 	{
-		// ft_putstr_fd()
-		perror("exe_cmd"); // ft_putstr_fd();
 		if (shell->exit_status == -1)
-			shell->exit_status = 127;
+			shell->exit_status = perror_cmd(shell, exe_cmd);
 		exit(shell->exit_status);
 	}
 	clean_array(cmd_args);

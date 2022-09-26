@@ -19,7 +19,9 @@ void	pwd_cmd(t_shell	*shell)
 	char	pwd[PATH_MAX + 1];
 
 	if (!getcwd(pwd, PATH_MAX + 1))
-		printf("ERROR"); // сделать обработку
+	{
+		exit(1);
+	}
 	ft_putendl_fd(pwd, 1);
 	shell->exit_status = 0;
 }

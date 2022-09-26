@@ -1,54 +1,5 @@
 #include "builtins.h"
 
-void	ft_search_oldpwd(char **oldpwd, t_blist *envs)
-{
-	t_blist	*tmp;
-	char	tmp1[1024];
-
-	tmp = envs;
-	while (tmp)
-	{
-		if (!ft_strncmp("PWD", tmp->key, 4))
-			break ;
-		tmp = tmp->next;
-	}
-	if (tmp != NULL)
-		*oldpwd = ft_strdup(tmp->val);
-	else if (tmp == NULL)
-	{
-		getcwd(tmp1, 1024);
-		*oldpwd = ft_strdup(tmp1);
-	}
-	if (*oldpwd == NULL)
-		printf("ERROR!"); // TODO
-}
-
-void	ft_print_shell(char *str, char *shell)
-{
-	if (str != NULL)
-		ft_putstr_fd(str, 2);
-	write(2, shell, ft_strlen(shell));
-	write(2, "\b\b", 2);
-}
-
-void	ft_cd_error(t_shell *shell, char **arr, int flag, char *oldpwd)
-{
-	free(oldpwd);
-	if (flag == 1)
-	{
-		// ft_print_shell(NULL, SHELL);
-		ft_putstr_fd(": cd: HOME not set \n", 2);
-	}
-	else if (flag == 2)
-	{
-		// ft_print_shell(NULL, SHELL);
-		ft_putstr_fd(": cd: ", 2);
-		ft_putstr_fd(arr[1], 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-	}
-	shell->exit_status = 1;
-}
-
 int	ft_without_argument(t_blist *envs, char *path)
 {
 	t_blist	*tmp;
@@ -83,18 +34,18 @@ void	ft_cd_pwd(t_blist *tmp, int flag, t_blist *envs)
 		free(tmp->val);
 		tmp->val = ft_strdup(tmp1);
 		if (tmp->val == NULL)
-			printf("ERROR!"); // TODO
+			perror_exit("", 12);
 	}
 	else if (flag == 2)
 	{
 		key = ft_strdup("PWD");
 		value = ft_strdup(tmp1);
 		if (key == NULL || value == NULL)
-			printf("ERROR!"); // TODO
+			perror_exit("", 12);
 		new = blst_new(key, value);
 		if (!new)
-			printf("ERROR!"); // TODO
-		blst_add_back(&envs, new); // checking
+			perror_exit("", 12);
+		blst_add_back(&envs, new);
 	}
 }
 
@@ -115,10 +66,10 @@ void	ft_cd_oldpwd(t_blist *tmp, int flag, t_blist *envs, char *oldpwd)
 		value = ft_strdup(oldpwd);
 		free(oldpwd);
 		if (key == NULL || value == NULL)
-			printf("ERROR!"); // TODO
+			perror_exit("", 12);
 		new = blst_new(key, value);
 		if (!new)
-			printf("ERROR!"); // TODO
+			perror_exit("", 12);
 		blst_add_back(&envs, new);
 	}
 }
