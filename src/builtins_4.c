@@ -1,4 +1,5 @@
 #include "builtins.h"
+#include "clean.h"
 
 void	error_message_unset(t_shell	*shell, char *str)
 {
@@ -42,4 +43,8 @@ void	unset_cmd(t_shell	*shell, t_blist **envp, char **cmd_args)
 {
 	check_arguments_unset(shell, cmd_args);
 	remove_envs(envp, cmd_args[1]);
+	if (!ft_strncmp(cmd_args[1], "PATH", ft_strlen(cmd_args[1])))
+	{
+		clean_array(shell->env_arr);
+	}
 }
