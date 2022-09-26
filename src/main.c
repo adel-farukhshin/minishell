@@ -57,7 +57,8 @@ void	main_helper(char *str, t_node	*cmd, t_shell	*shell)
 	add_history(str);
 	cmd = parse_str_function(str, shell);
 	free(str);
-	executor(cmd, shell);
+	if (cmd->type != error_node)
+		executor(cmd, shell);
 	node_drop(cmd);
 }
 
