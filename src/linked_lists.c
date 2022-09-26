@@ -3,8 +3,7 @@
 #include <unistd.h>
 #include "linked_lists.h"
 
-
-t_l_list *ll_new(t_blist *head)
+t_l_list	*ll_new(t_blist *head)
 {
 	t_l_list	*new;
 
@@ -16,7 +15,7 @@ t_l_list *ll_new(t_blist *head)
 	return (new);
 }
 
-bool ll_has_next(t_l_list *list)
+bool	ll_has_next(t_l_list *list)
 {
 	if (!list->next)
 		return (false);
@@ -36,20 +35,6 @@ t_blist	*ll_take(t_l_list *list)
 	tmp = list->next;
 	list->next = list->next->next;
 	return (tmp);
-}
-
-void	ll_change_value(t_blist *node, void *new_val)
-{
-	if (node->val)
-		free(node->val);
-	node->val = new_val;
-}
-
-void	*ll_drop(t_l_list *list)
-{
-	blst_clear(&list->head, free, free);
-	free(list);
-	return (NULL);
 }
 
 /*
