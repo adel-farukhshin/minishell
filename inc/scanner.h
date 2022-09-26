@@ -5,8 +5,8 @@
 # include "source.h"
 
 typedef struct s_token {
-	void	*key; // 2
-	void	*val; // hello
+	void			*key;
+	void			*val;
 	struct s_token	*next;
 }	t_token;
 
@@ -23,18 +23,44 @@ typedef struct s_token {
 t_token	*tokenize(t_src *src);
 
 /**
- * @brief 
- * Loops src. After every invocation curpos equals the first character after the previous token.
+ * @brief
+ * Loops src. After every invocation curpos equals
+ * the first character after the previous token.
  * 
  * @param src 
  * @return t_token* 
  * @return NULL: 1) EOF 2) error with quotes
  */
 t_token	*find_token(t_src *src);
+
 t_token	*create_token(char key, char *val);
 void	free_token(t_token *tok, char m);
 void	free_token_list(t_token *head);
 
+/**
+ * @brief 
+ * Creates a val. Updates curpos, so it equals the last character of token. 
+ * Returns token's value or null (in case of error).
+ * 
+ * @param src 
+ * @param key 
+ * @return char* 
+ */
+char	*create_val(t_src *src, char key);
 
+char	find_key(char c);
+
+long	redir_token(t_src *src, char *key);
+
+/**
+ * @brief 
+ * Parses fields. Returns 0 on success and 1 on failure.
+ * 
+ * @param src 
+ * @param key 
+ * @param len 
+ * @return char 
+ */
+char	process_fields(t_src *src, char key, long *len);
 
 #endif
