@@ -7,6 +7,7 @@ void	start_buitins_parent(t_node	*cmd, t_shell	*shell, int builtin_num)
 	char	**cmd_args;
 	char	*cmd_str;
 
+	cmd_args = NULL;
 	cmd_str = (char *)cmd->value.cmd_val.args->val;
 	if (cmd_str != NULL)
 	{
@@ -59,6 +60,7 @@ void	start_buitins_child(t_node	*cmd, t_shell	*shell, int builtin_num)
 	char	**cmd_args;
 	char	*cmd_str;
 
+	cmd_args = NULL;
 	cmd_str = (char *)cmd->value.cmd_val.args->val;
 	if (cmd_str != NULL)
 	{
