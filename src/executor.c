@@ -43,6 +43,7 @@ int	executor(t_node *cmd, t_shell	*shell)
 	int			i;
 	int			status;
 
+	children = 0;
 	i = 0;
 	ctx.fd[0] = STDIN_FILENO;
 	ctx.fd[1] = STDOUT_FILENO;
