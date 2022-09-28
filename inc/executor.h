@@ -1,5 +1,5 @@
 #ifndef EXECUTOR_H
-# define EXECUTIR_H
+# define EXECUTOR_H
 # include "minishell.h"
 # include "node.h"
 # include <fcntl.h>
