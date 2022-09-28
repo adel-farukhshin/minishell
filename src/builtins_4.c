@@ -39,6 +39,35 @@ void	check_arguments_unset(t_shell	*shell, char **args)
 	}
 }
 
+char	**get_envp(t_blist *envs)
+{
+	char	**result;
+	char	*temp;
+	t_blist	*buf;
+	int		words;
+
+	words = 0;
+	buf = envs;
+	while (buf)
+	{
+		buf = buf->next;
+		words++;
+	}
+	result = (char **)malloc(sizeof(char *) * (words + 1));
+	words = 0;
+	buf = envs;
+	while (buf)
+	{
+		temp = ft_strjoin(buf->key, "=");
+		result[words] = ft_strjoin(temp, buf->val);
+		free(temp);
+		buf = buf->next;
+		words++;
+	}
+	result[words] = NULL;
+	return (result);
+}
+
 void	unset_cmd(t_shell	*shell, t_blist **envp, char **cmd_args)
 {
 	check_arguments_unset(shell, cmd_args);
@@ -46,5 +75,6 @@ void	unset_cmd(t_shell	*shell, t_blist **envp, char **cmd_args)
 	if (!ft_strncmp(cmd_args[1], "PATH", ft_strlen(cmd_args[1])))
 	{
 		clean_array(shell->env_arr);
+		shell->env_arr = get_envp(shell->envs);
 	}
 }

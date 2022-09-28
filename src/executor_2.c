@@ -3,9 +3,13 @@
 
 char	*find_path(char **envp)
 {
-	while (ft_strncmp("PATH", *envp, 4))
+	while (*envp)
+	{
+		if (!ft_strncmp("PATH", *envp, 4))
+			return (*envp + 5);
 		envp++;
-	return (*envp + 5);
+	}
+	return (NULL);
 }
 
 char	*get_cmd(char **paths, char *cmd)
@@ -13,6 +17,8 @@ char	*get_cmd(char **paths, char *cmd)
 	char	*tmp;
 	char	*command;
 
+	if (paths == NULL)
+		return (NULL);
 	while (*paths)
 	{
 		tmp = ft_strjoin(*paths, "/");
@@ -26,7 +32,7 @@ char	*get_cmd(char **paths, char *cmd)
 	return (NULL);
 }
 
-int	perror_cmd(t_shell *shell, char *cmd)
+int	perror_cmd(t_shell *shell, char *cmd, char *path_str)
 {
 	char	*s1;
 	char	*s2;
@@ -36,7 +42,10 @@ int	perror_cmd(t_shell *shell, char *cmd)
 	free(s1);
 	ft_putstr_fd(s2, 2);
 	free(s2);
-	ft_putstr_fd(": command not found\n", 2);
+	if (path_str)
+		ft_putstr_fd(": command not found\n", 2);
+	else
+		ft_putstr_fd(": No such file or directory\n", 2);
 	shell->exit_status = CMD_NOT_FOUND;
 	return (shell->exit_status);
 }
@@ -49,16 +58,18 @@ void	exec_simple_cmd(t_node	*cmd, t_shell	*shell)
 	char	**cmd_args;
 
 	path_str = find_path(shell->env_arr);
-	cmd_paths = ft_split(path_str, ':');
-	exe_cmd = get_cmd(cmd_paths, (char *)cmd->value.cmd_val.args->val);
-	if (exe_cmd == NULL)
+	if (path_str)
+	{
+		cmd_paths = ft_split(path_str, ':');
+		exe_cmd = get_cmd(cmd_paths, (char *)cmd->value.cmd_val.args->val);
+	}
+	if (exe_cmd == NULL && cmd_paths)
 		exe_cmd = (char *)cmd->value.cmd_val.args->val;
 	cmd_args = lst_to_char(&cmd->value.cmd_val.args);
-	shell->exit_status = execve(exe_cmd, cmd_args, shell->env_arr);
+	execve(exe_cmd, cmd_args, shell->env_arr);
 	if (errno != 0)
 	{
-		if (shell->exit_status == -1)
-			shell->exit_status = perror_cmd(shell, exe_cmd);
+		shell->exit_status = perror_cmd(shell, exe_cmd, path_str);
 		exit(shell->exit_status);
 	}
 	clean_array(cmd_args);
