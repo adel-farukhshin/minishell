@@ -53,9 +53,7 @@ static char	parse_redir(t_l_list *t, t_node *cmd, t_shell *sh)
 	while (ll_has_next(t) && *(char *) tok->key >= REDIR_OUT
 		&& *(char *) tok->key <= REDIR_INSOURCE)
 	{
-		printf("init %d\n", *(char *)ll_peek(t)->key);
 		tok = ll_take(t);
-		printf("init %d\n", *(char *)ll_peek(t)->key);
 		if (parse_arg(t, &arg, sh) == 0)
 		{
 			if (cmd_add_redir(cmd, arg, *(char *)tok->key))
