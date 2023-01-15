@@ -19,16 +19,14 @@ void	clean_envs_list(t_blist *list)
 {	
 	t_blist	*tmp_list;
 
-	tmp_list = list;
 	while (list)
 	{
-		free(tmp_list->key);
-		tmp_list->key = NULL;
-		free(tmp_list->val);
-		tmp_list = tmp_list->next;
-		tmp_list->val = NULL;
-		free(tmp_list);
-		list = NULL;
+		tmp_list = list->next;
+		free(list->key);
+		list->key = NULL;
+		free(list->val);
+		list->val = NULL;
+		free(list);
 		list = tmp_list;
 	}
 }
